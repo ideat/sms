@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.mindware.mappers.ContactoMapper">
+
+    <resultMap type="Contacto" id="ContactoResult">
+        <id 	property="contactoId" column="contacto_id"/>
+        <result property="nombreContacto" column="nombre_contacto"/>
+        <result property="celular" column="celular"/>
+        <result property="estado" column="estado"/>
+        <result property="fechaImportacion" column="fecha_importacion"/>
+        <result property="estado" column="estado"/>
+        <result property="campo1" column="campo1"/>
+        <result property="campo2" column="campo2"/>
+        <result property="campo3" column="campo3"/>
+
+    </resultMap>
+
+    <insert id="insertContacto"  parameterType="contacto" keyProperty="contacto_id" >
+        <selectKey keyProperty="contacto_id" resultType="int" order="BEFORE">
+            select nextval('contacto_id_seq')
+        </selectKey>
+        insert into contacto (contacto_id,nombre_contacto, fecha_importacion, celular, campo1, campo2, campo3, estado, usuario)
+        values ( #{contacto_id},#{nombreContacto}, #{fechaImportacion}, #{celular}, #{campo1}, #{campo2}, #{campo3}, #{estado}, #{usuario})
+    </insert>
+    <select id="getContactos" resultType="contacto">
+        select * from contacto
+    </select>
+</mapper>
