@@ -32,7 +32,7 @@ public class ContactoService {
         }
     }
 
-    public void insertarContacto(Contacto contacto) {
+    public void insertContacto(Contacto contacto) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);

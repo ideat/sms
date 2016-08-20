@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class MybatisUtil {
-	private String resource = "com/mindware/mybatis/mybatis-config.xml";
+	private String resource = "mybatis-config.xml";
 	private SqlSession session = null;
 	
 	public SqlSession getSession() {

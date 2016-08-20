@@ -79,11 +79,7 @@ public class ListaContactos extends CustomComponent{
 		tbl_contactos.addContainerProperty("campo1", String.class, "Campo 1");
 		tbl_contactos.addContainerProperty("campo2", String.class, "Campo 2");
 		tbl_contactos.addContainerProperty("campo3", String.class, "Campo 3");
-		tbl_contactos.addContainerProperty("campo4", String.class, "Campo 4");
-		tbl_contactos.addContainerProperty("campo5", String.class, "Campo 5");
-		tbl_contactos.addContainerProperty("campo6", String.class, "Campo 6");
-	
-		
+
 	}
 	
 	

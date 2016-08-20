@@ -16,7 +16,6 @@ import java.util.Properties;
 public class MyBatisSqlSessionFactory
 {
     private static SqlSessionFactory sqlSessionFactory;
-
     private static final Properties PROPERTIES = new Properties();
 
     static
@@ -36,7 +35,7 @@ public class MyBatisSqlSessionFactory
             InputStream inputStream = null;
             try
             {
-                inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+                inputStream = Resources.getResourceAsStream("/mybatis-config.xml");
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             }catch (IOException e)
             {

@@ -9,17 +9,19 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Upload.FinishedEvent;
+import de.steinwedel.messagebox.MessageBox;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Date;
 
-//import com.mindware.util.ImportarCSV;
+//import com.mindware.utiles.ImportarCSV;
 
 @SuppressWarnings("serial")
 public class CargarArchivo extends Window  {
@@ -48,6 +50,7 @@ public class CargarArchivo extends Window  {
 	
 	private Upload upload;
     private File tempFile;
+	private static ContactoService contactoService;
     //private IndexedContainer indexedContainer;
 	@SuppressWarnings("deprecation")
 	public CargarArchivo() {
@@ -72,46 +75,73 @@ public class CargarArchivo extends Window  {
 	
 	private void InsertarDatos() {
 		btnInsertar.addClickListener(new ClickListener() {
-			
+
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
-				ArrayList <Contacto> listaContacto= new ArrayList <Contacto> ();
-
+				contactoService = new ContactoService();
+				ArrayList <Contacto> listaContactos= new ArrayList <Contacto> ();
                 Container container = tblCSV.getContainerDataSource();
-
-                Iterator<?> iterator = container.getItemIds().iterator();
+                //Iterator<?> iterator = container.getItemIds().iterator();
 				Collection<?> itemIDS= container.getItemIds();
-
 				String[] columHeader = tblCSV.getColumnHeaders();
-				int i = 1;
-				for (Object itemID : itemIDS) {
-					Property property = container.getContainerProperty(itemID,"telefono_domicilio");
-					Object data = property.getValue();
-					String celular = data.toString();
-					//listaContacto.set(new Contacto());
-					i+=1;
-				}
 
-				while (iterator.hasNext()) {
-
-
-					//listaContacto.add(i,container.getItem().toString());
-
-					/*
-					Collection<?> itemIDS= conatiner.getItemIds();
-					for (Object itemID : itemIDS)
-					{
-     					Property property= container.getContainerProperty(itemID, "COLUMN");
-     					Object data= property.getValue();
+					if (columHeader.length>5) {
+						Notification notif = new Notification(
+								"Cuidado",
+								"Numero de columnas excede lo permitido, se importaran las 5 primeras",
+								Notification.TYPE_WARNING_MESSAGE);
+						notif.setDelayMsec(20000);
+						notif.show(Page.getCurrent());
 					}
-					 */
+					for (Object itemID : itemIDS) {
+						Contacto contacto = new Contacto();
+						for (int i = 0; i < columHeader.length; i++) {
+							Property property = container.getContainerProperty(itemID, columHeader[i]);
+							Object data = property.getValue();
+							switch (i) {
+								case 0:
+									contacto.setCelular(data.toString());
+									break;
+								case 1:
+									contacto.setNombreContacto(data.toString());
+									break;
+								case 2:
+									contacto.setCampo1(data.toString());
+									break;
+								case 3:
+									contacto.setCampo2(data.toString());
+									break;
+								case 4:
+									contacto.setCampo3(data.toString());
+									break;
+								default:
+									break;
+							}
 
+						}
+						contacto.setEstado("Activo");
+						contacto.setUsuario("adm");
+						java.util.Date fecha = new Date();
+						contacto.setFechaImportacion(fecha);
+						listaContactos.add(contacto);
+						//contactoService.insertarContacto(contacto);
+					}
+					try {
+						contactoService.insertarContactos(listaContactos);
 
-                }
-				ContactoService contactoService=null;
-				contactoService.insertarContactos(listaContacto);
-				
+						MessageBox.createInfo()
+								.withCaption("Registro")
+								.withMessage("Datos importados con exito!")
+								.open();
+
+					} catch (Exception e) {
+						MessageBox.createError()
+								.withCaption("Error")
+								.withMessage("Error al importar datos, revise origen")
+								.withAbortButton()
+								.open();
+					}
+
 			}
 		});
 	}
