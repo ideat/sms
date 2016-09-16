@@ -5,7 +5,7 @@
 
 <mapper namespace = "com.mindware.mappers.ContactoMapper">
 
-    <resultMap type="Contacto" id="ContactoResult">
+    <resultMap type="contacto" id="ContactoResult">
         <id 	property="contactoId" column="contacto_id"/>
         <result property="nombreContacto" column="nombre_contacto"/>
         <result property="celular" column="celular"/>
@@ -18,14 +18,50 @@
 
     </resultMap>
 
-    <insert id="insertContacto"  parameterType="contacto" keyProperty="contacto_id" >
-        <selectKey keyProperty="contacto_id" resultType="int" order="BEFORE">
+    <insert id="insertContacto"  parameterType="contacto" keyProperty="contactoId" >
+        <selectKey keyProperty="contactoId" resultType="int" order="BEFORE">
             select nextval('contacto_id_seq')
         </selectKey>
-        insert into contacto (contacto_id,nombre_contacto, fecha_importacion, celular, campo1, campo2, campo3, estado, usuario)
-        values ( #{contacto_id},#{nombreContacto}, #{fechaImportacion}, #{celular}, #{campo1}, #{campo2}, #{campo3}, #{estado}, #{usuario})
+        insert into contacto (
+        contacto_id,
+        nombre_contacto,
+        fecha_importacion,
+        celular,
+        campo1,
+        campo2,
+        campo3,
+        estado,
+        usuario)
+        values (
+        #{contactoId},
+        #{nombreContacto},
+        #{fechaImportacion},
+        #{celular},
+        #{campo1},
+        #{campo2},
+        #{campo3},
+        #{estado},
+        #{usuario})
     </insert>
-    <select id="getContactos" resultType="contacto">
+
+    <select id="findAllContactos" resultMap="ContactoResult">
         select * from contacto
     </select>
+
+    <select id="findContactoByID" resultMap="ContactoResult" parameterType="int">
+        select * from contacto
+        where contacto_id = #{contactoId}
+
+    </select>
+
+    <select id="findContactoByUser" resultMap="ContactoResult" parameterType="String">
+        select celular, nombre_contacto, campo1, campo2, campo3 from contacto
+        where usuario = #{usuario}
+        order by nombre_contacto
+    </select>
+
+    <delete id="deleteContacto" >
+        delete from contacto
+    </delete>
+
 </mapper>

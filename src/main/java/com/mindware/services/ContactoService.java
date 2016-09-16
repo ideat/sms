@@ -32,7 +32,18 @@ public class ContactoService {
         }
     }
 
-    public void insertContacto(Contacto contacto) {
+    public List<Contacto> findContactoByUser(String usuario) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+            return contactoMapper.findContactoByUser(usuario);
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public void insertaContacto(Contacto contacto) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
@@ -44,10 +55,14 @@ public class ContactoService {
     }
 
     public void insertarContactos(List<Contacto> contactos) {
+
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
-            contactos.parallelStream().forEach(contacto -> contactoMapper.insertContacto(contacto));
+//            contactos.parallelStream().forEach(contacto -> contactoMapper.insertContacto(contacto));
+            for(Contacto contacto:contactos) {
+                contactoMapper.insertContacto(contacto);
+            }
             sqlSession.commit();
 
         } finally {

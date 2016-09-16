@@ -4,22 +4,19 @@ import java.util.Date;
 
 public class Mensaje {
 	private Integer mensaje_id;
-	private Integer miembro_grupo_id;
 	private String mensaje_enviado;
 	private Date fecha_envio;
 	private Date hora_envio;
 	private String enviado;
+	private String nombre;
+	private String grupo;
+	private String celular;
+
 	public Integer getMensaje_id() {
 		return mensaje_id;
 	}
 	public void setMensaje_id(Integer mensaje_id) {
 		this.mensaje_id = mensaje_id;
-	}
-	public Integer getMiembro_grupo_id() {
-		return miembro_grupo_id;
-	}
-	public void setMiembro_grupo_id(Integer miembro_grupo_id) {
-		this.miembro_grupo_id = miembro_grupo_id;
 	}
 	public String getMensaje_enviado() {
 		return mensaje_enviado;
@@ -45,7 +42,28 @@ public class Mensaje {
 	public void setEnviado(String enviado) {
 		this.enviado = enviado;
 	}
-	
-	
-	
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 }

@@ -9,6 +9,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import de.steinwedel.messagebox.MessageBox;
 
+import java.util.Date;
+
 
 @SuppressWarnings("serial")
 public class AddContacto extends Window implements ClickListener{
@@ -65,29 +67,40 @@ public class AddContacto extends Window implements ClickListener{
 		buildMainLayout();
 		//setCompositionRoot(mainLayout);
 		setContent(mainLayout);
-		
+		postBuild();
+	}
+
+	public void postBuild() {
+		this.btnguardar.addClickListener((ClickListener)this);
+		this.btncerrar.addClickListener((ClickListener)this);
 	}
 
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getSource()==this.btnguardar){
 			if(validarDatos()){
+				contactoService = new ContactoService();
 				Contacto contacto = new Contacto();
 				contacto.setCelular(textField_6.getValue());
 				contacto.setNombreContacto((textField_4.getValue()));
 				contacto.setCampo1(textField_7.getValue());
 				contacto.setCampo2(textField_8.getValue());
 				contacto.setCampo3(textField_9.getValue());
-				contactoService.insertContacto(contacto);
+				java.util.Date fecha = new Date();
+				contacto.setFechaImportacion(fecha);
+				contacto.setEstado("Activo");
+				contacto.setUsuario("admin");
+				contactoService.insertaContacto(contacto);
 				MessageBox.createInfo()
 						.withCaption("Registro")
 						.withMessage("Datos registrados con exito!")
 						.open();
+				limpiarDatos();
 			}
 			else {
 				MessageBox.createError()
 						.withCaption("Error")
-						.withMessage("Error al guardar datos")
+						.withMessage("Revisar numero de telefono")
 						.withAbortButton()
 						.open();
 			}
@@ -98,13 +111,21 @@ public class AddContacto extends Window implements ClickListener{
 
 	}
 
+	private void limpiarDatos() {
+		textField_6.clear();
+		textField_4.clear();
+		textField_7.clear();
+		textField_8.clear();
+		textField_9.clear();
+	}
+
 	private boolean validarDatos() {
 
 		if (Tools.ValidarTelefono(textField_6.getValue())) {
-			return false;
+			return true;
 		}
 		else
-			return true;
+			return false;
 	}
 
 
@@ -251,15 +272,16 @@ public class AddContacto extends Window implements ClickListener{
 		horizontalLayout_4.setComponentAlignment(btnguardar, new Alignment(20));
 		
 		// btncerrar
-		btncerrar = new Button("Cerrar",new Button.ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				close();
-				
-			}
-		});
-		//btncerrar.setCaption("Cerrar");
+//		btncerrar = new Button("Cerrar",new Button.ClickListener() {
+//
+//			@Override
+//			public void buttonClick(ClickEvent event) {
+//				close();
+//
+//			}
+//		});
+		btncerrar = new Button();
+		btncerrar.setCaption("Cerrar");
 		btncerrar.setImmediate(true);
 		btncerrar.setWidth("120px");
 		btncerrar.setHeight("-1px");

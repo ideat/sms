@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.mindware.mappers.GrupoMapper">
+
+    <resultMap type="grupo" id="GrupoResult">
+        <id 	property="grupoId" column="grupo_id"/>
+        <result property="nombreGrupo" column="nombre_grupo"/>
+        <result property="estado" column="estado"/>
+        <result property="fechaCreacion" column="fecha_creacion"/>
+        <result property="usuarioId" column="usuario_id"/>
+        <result property="numeroMiembros" column="numero_miembros"/>
+    </resultMap>
+
+    <insert id="insertGrupo"  parameterType="grupo" keyProperty="grupoId" >
+        <selectKey keyProperty="grupoId" resultType="int" order="BEFORE">
+            select nextval('grupo_id_seq')
+        </selectKey>
+        insert into grupo (grupo_id,nombre_grupo, estado, usuario_id, numero_miembros, fecha_creacion)
+        values ( #{grupoId},#{nombreGrupo}, #{estado}, #{usuarioId}, #{numeroMiembros}, #{fechaCreacion})
+    </insert>
+    <select id="getGruposUsuario" parameterType="int" resultType="grupo" >
+        select * from grupo
+        where usuario_id = #{usuarioId}
+        order by fecha_creacion
+    </select>
+    <select id="getGrupoMiembros" parameterType="int" resultMap="GrupoResult">
+        select g.grupo_id, g.nombre_grupo, g.numero_miembros
+        from grupo g
+        where g.usuario_id = #{usuarioId}
+        order by g.grupo_id
+    </select>
+
+    <delete id="deleteGrupo" parameterType="int">
+        delete from grupo
+        where grupo_id = #{grupoId}
+    </delete>
+</mapper>

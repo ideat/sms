@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Contacto {
 
-	private int contacto_id;
+	private int contactoId;
 	private String nombreContacto;
 	private Date fechaImportacion;
 	private String celular;
@@ -19,10 +19,10 @@ public class Contacto {
 
 	}
 
-	public Contacto (int contacto_id, String nombreContacto, Date fechaImportacion
+	public Contacto (int contactoId, String nombreContacto, Date fechaImportacion
 			, String celular, String campo1, String campo2, String campo3, String estado, String usuario) {
 		
-		this.contacto_id = contacto_id;
+		this.contactoId = contactoId;
 		this.nombreContacto = nombreContacto;
 		this.fechaImportacion = fechaImportacion;
 		this.celular = celular;
@@ -49,10 +49,10 @@ public class Contacto {
 
 	
 	public int getContacto_id() {
-		return contacto_id;
+		return contactoId;
 	}
 	public void setContacto_id(int contacto_id) {
-		this.contacto_id = contacto_id;
+		this.contactoId = contacto_id;
 	}
 	public String getNombreContacto() {
 		return nombreContacto;

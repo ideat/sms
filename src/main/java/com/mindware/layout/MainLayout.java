@@ -56,7 +56,10 @@ public class MainLayout extends VerticalLayout{
 		});
 	}
 	
-	
+	public void callContentLayout(final Component component) {
+		contentLayout.removeAllComponents();
+		contentLayout.addComponent(component);
+	}
 		
 	
 }

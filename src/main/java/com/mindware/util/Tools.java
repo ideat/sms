@@ -10,7 +10,7 @@ public class Tools {
         if (numero.length()!= 8) {
             return false;
         }
-        else  if (!numero.startsWith("6|7")) {
+        else  if (!numero.matches("(6|7).*")) {
             return false;
         }
         else  if (EsNumero(numero)) {

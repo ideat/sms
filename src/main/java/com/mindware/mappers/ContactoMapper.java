@@ -9,6 +9,7 @@ public interface ContactoMapper {
 	void insertContacto(Contacto contacto);
 	//void updateContacto(Contacto contacto);
 	Contacto findContactoById(int id);
+	List<Contacto> findContactoByUser(String usuario);
 	int deleteContacto(int id);
 
 }

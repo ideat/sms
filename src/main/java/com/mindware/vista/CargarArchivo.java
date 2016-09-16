@@ -50,14 +50,12 @@ public class CargarArchivo extends Window  {
 	
 	private Upload upload;
     private File tempFile;
-	private static ContactoService contactoService;
+	private  static ContactoService contactoService;
     //private IndexedContainer indexedContainer;
 	@SuppressWarnings("deprecation")
 	public CargarArchivo() {
-		
-		
 		buildMainLayout();
-			
+
 		//setCompositionRoot(mainLayout);
 		
 	/*	ImportarCSV receiver = new ImportarCSV();
@@ -67,9 +65,7 @@ public class CargarArchivo extends Window  {
 		//mainLayout.addComponent(upload);
 		
 		setContent(mainLayout);
-		
-		
-				
+
 	}
 	
 	
@@ -124,6 +120,7 @@ public class CargarArchivo extends Window  {
 						java.util.Date fecha = new Date();
 						contacto.setFechaImportacion(fecha);
 						listaContactos.add(contacto);
+
 						//contactoService.insertarContacto(contacto);
 					}
 					try {
@@ -137,7 +134,7 @@ public class CargarArchivo extends Window  {
 					} catch (Exception e) {
 						MessageBox.createError()
 								.withCaption("Error")
-								.withMessage("Error al importar datos, revise origen")
+								.withMessage("Error al importar datos, revise origen ")
 								.withAbortButton()
 								.open();
 					}
