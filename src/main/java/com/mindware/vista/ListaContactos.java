@@ -250,11 +250,6 @@ public class ListaContactos extends CustomComponent{
 
 		horizontalLayout_1.addComponent(tbl_contactos);
 
-//		grid_contactos = new Grid();
-//		grid_contactos.setVisible(true);
-//		grid_contactos.setWidth("100.0%");
-//		grid_contactos.setHeight("100.0%");
-//		horizontalLayout_1.addComponent(grid_contactos);
 		return horizontalLayout_1;
 	}
 
