@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.mindware.mappers.MensajeMapper">
+
+    <resultMap type="mensaje" id="MensajeResult">
+        <id 	property="mensajeId" column="mensaje_id"/>
+        <result property="fechaEnvio" column="fecha_envio"/>
+        <result property="horaEnvio" column="hora_envio"/>
+        <result property="enviado" column="enviado"/>
+        <result property="fechaImportacion" column="fecha_importacion"/>
+        <result property="celular" column="celular"/>
+        <result property="nombre" column="nombre"/>
+        <result property="grupo" column="grupo"/>
+    </resultMap>
+
+    <insert id="insertarMensaje" parameterType="mensaje" keyProperty="mensaje_id" >
+        <selectKey keyProperty="mensaje_id" resultType="int" order="BEFORE">
+            select nextval('mensaje_id_seq')
+        </selectKey>
+
+        insert into mensaje (mensaje_id,mensaje, fecha_envio, hora_envio, enviado, celular, nombre, grupo) VALUES
+        (#{mensaje_id}, #{mensaje}, #{fecha_envio},#{hora_envio},#{enviado},#{celular}, #{nombre}, #{grupo})
+    </insert>
+
+    <select id="findAllMensajesUsuario" resultMap="MensajeResult">
+
+    </select>
+
+
+
+
+</mapper>

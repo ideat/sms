@@ -5,6 +5,7 @@ import com.mindware.mappers.ContactoMapper;
 import com.mindware.util.MyBatisSqlSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,6 +89,30 @@ public class ContactoService {
         }
 
     }
+
+    public ArrayList<Contacto> contactSelected(String usuario, List<String> celulares) {
+        ArrayList<Contacto> listCell = new ArrayList<>();
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper mapper = sqlSession.getMapper(ContactoMapper.class);
+            listCell = mapper.contactSelected(usuario,celulares);
+            sqlSession.commit();
+            return listCell;
+        }
+        catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+            throw new RuntimeException(e.getCause());
+        }
+        finally {
+            sqlSession.close();
+        }
+
+    }
+
+
+
+
 
 
 }

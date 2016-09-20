@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Mensaje {
 	private Integer mensaje_id;
-	private String mensaje_enviado;
+	private String mensaje;
 	private Date fecha_envio;
 	private Date hora_envio;
 	private String enviado;
@@ -18,11 +18,11 @@ public class Mensaje {
 	public void setMensaje_id(Integer mensaje_id) {
 		this.mensaje_id = mensaje_id;
 	}
-	public String getMensaje_enviado() {
-		return mensaje_enviado;
+	public String getMensaje() {
+		return mensaje;
 	}
-	public void setMensaje_enviado(String mensaje_enviado) {
-		this.mensaje_enviado = mensaje_enviado;
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 	public Date getFecha_envio() {
 		return fecha_envio;

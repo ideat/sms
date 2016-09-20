@@ -245,7 +245,7 @@ public class ListaContactos extends CustomComponent{
 		tbl_contactos.setHeight("100.0%");
 		tbl_contactos.setVisible(true);
 		tbl_contactos.setSelectable(true);
-		tbl_contactos.setMultiSelectMode(MultiSelectMode.DEFAULT);
+		tbl_contactos.setMultiSelectMode(MultiSelectMode.SIMPLE);
 		tbl_contactos.setMultiSelect(true);
 
 		horizontalLayout_1.addComponent(tbl_contactos);

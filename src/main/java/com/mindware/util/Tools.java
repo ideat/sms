@@ -1,5 +1,9 @@
 package com.mindware.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by freddy on 19-08-16.
  */
@@ -28,5 +32,12 @@ public class Tools {
             return false;
         }
 
+    }
+
+    private String getActualTime(){
+        Date dtFechaActual = new Date ();
+        DateFormat dfLocal = new SimpleDateFormat("HH:mm:ss");
+
+        return dfLocal.format(dtFechaActual);
     }
 }

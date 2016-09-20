@@ -60,8 +60,20 @@
         order by nombre_contacto
     </select>
 
+    <select id="contactSelected" resultMap="ContactoResult"  parameterType="map">
+        select contacto_id, celular, nombre_contacto, campo1, campo2, campo3 from contacto
+        where usuario = #{usuario}
+        and celular in  <!--('60700381','8902343')-->
+        <foreach item="item"  index="index" collection="list" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
     <delete id="deleteContacto" >
         delete from contacto
     </delete>
+
+
 
 </mapper>
