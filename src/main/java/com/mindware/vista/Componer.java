@@ -108,8 +108,10 @@ public class Componer extends CustomComponent {
 				try {
 					mensajeService = new MensajeService();
 					contactoService = new ContactoService();
-
-					List<Mensaje> mensajes = mensajeService.prepararMensajes(txtMensaje.getValue(), contactoService.contactSelected("adm", numeroCelulares(txtNumeros.getValue())), grupo);
+					//TODO reemplazar el 1 por el codigo de usuario de logeo
+					List<Mensaje> mensajes = mensajeService.prepararMensajes(txtMensaje.getValue(),
+															contactoService.contactSelected(1,
+															numeroCelulares(txtNumeros.getValue())), grupo);
 					mensajeService.insertarMensaje(mensajes);
 					MessageBox.createInfo()
 							.withCaption("Bandeja Salida")

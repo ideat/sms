@@ -1,6 +1,8 @@
 package com.mindware.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Contacto {
 
@@ -12,16 +14,17 @@ public class Contacto {
 	private String campo2;
 	private String campo3;
 	private String estado;
-	private String usuario;
+	private Integer usuarioId;
+	private List<Grupo> grupos = new ArrayList<>();
 
 
-	public Contacto() {
+	public Contacto(){
 
 	}
 
 	public Contacto (int contactoId, String nombreContacto, Date fechaImportacion
-			, String celular, String campo1, String campo2, String campo3, String estado, String usuario) {
-		
+			, String celular, String campo1, String campo2, String campo3, String estado, Integer usuarioId) {
+
 		this.contactoId = contactoId;
 		this.nombreContacto = nombreContacto;
 		this.fechaImportacion = fechaImportacion;
@@ -30,29 +33,23 @@ public class Contacto {
 		this.campo2 = campo2;
 		this.campo3 = campo3;
 		this.estado = estado;
-		this.usuario = usuario;
-	}
-	
-	public Contacto (String nombreContacto, Date fechaImportacion
-			, String celular, String campo1, String campo2, String campo3, String estado, String usuario) {
-		
-		this.nombreContacto = nombreContacto;
-		this.fechaImportacion = fechaImportacion;
-		this.celular = celular;
-		this.campo1 = campo1;
-		this.campo2 = campo2;
-		this.campo3 = campo3;
-		this.estado = estado;
-		this.usuario = usuario;
+		this.usuarioId = usuarioId;
 	}
 
 
-	
-	public int getContacto_id() {
+	public List<Grupo> getGrupos() {
+		return grupos;
+	}
+
+	public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
+	}
+
+	public int getContactoId() {
 		return contactoId;
 	}
-	public void setContacto_id(int contacto_id) {
-		this.contactoId = contacto_id;
+	public void setContactoId(int contactoId) {
+		this.contactoId = contactoId;
 	}
 	public String getNombreContacto() {
 		return nombreContacto;
@@ -60,11 +57,11 @@ public class Contacto {
 	public void setNombreContacto(String nombreContacto) {
 		this.nombreContacto = nombreContacto;
 	}
-	public String getUsuario() {
-		return usuario;
+	public Integer getUsuarioId() {
+		return usuarioId;
 	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setUsuarioId(Integer usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 	public Date getFechaImportacion() {
 		return fechaImportacion;
@@ -102,6 +99,5 @@ public class Contacto {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-		
-	
+
 }

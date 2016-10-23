@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.mindware.mappers.ContactoGrupoMapper">
+
+    <resultMap id="GrupoResultMap" type="contacto">
+        <id column="contacto_id"  property="contactoId"/>
+        <result property="nombreGrupo" column="nombre_grupo"/>
+        <result property="numeroMiembros" column="numero_miembros"/>
+        <result property="estado" column="estado"/>
+        <result property="fechaCreacion" column="fecha_creacion"/>
+        <collection javaType="ArrayList" property="grupo" resultMap="ContactoResultMap" />
+    </resultMap>
+
+    <resultMap id="ContactoResultMap" type="grupo">
+        <id property="grupoId" column="grupo_id" />
+        <result property="contactoId" column="contacto_id"/>
+        <result property="nombreContacto" column="nombre_contacto"/>
+        <result property="celular" column="celular"/>
+        <result property="campo1" column="campo1"/>
+        <result property="campo2" column="campo2"/>
+        <result property="campo3" column="campo3"/>
+        <collection  javaType="ArrayList" property="contacto" resultMap="GrupoResultMap" />
+    </resultMap>
+
+
+    <insert id="addContactoGrupo">
+        INSERT INTO contacto_grupo (contacto_id, grupo_id)
+        VALUES (#{contactoId}, #{grupoId});
+    </insert>
+
+    <delete id="deleteContactoGrupo" >
+        DELETE FROM contacto_grupo
+        WHERE contacto_id=#{contactoId}
+        AND grupo_id=#{grupoId}
+    </delete>
+
+    <select id="getContactosGrupo" resultMap="ContactoResultMap" parameterType="int">
+        SELECT
+        c.contacto_id, c.nombre_contacto, c.celular, c.campo1, c.campo2, c.campo3
+        FROM grupo AS  g
+        INNER JOIN contacto_grupo AS cg ON g.grupo_id = cg.grupo_id
+        INNER JOIN contacto AS c ON c.contacto_id = cg.contacto_id
+        WHERE g.grupo_id = #{grupoId}
+    </select>
+
+    <select id="getContactosGrupoDisponibles" resultMap="ContactoResultMap" parameterType="map">
+        SELECT
+        c.contacto_id, c.nombre_contacto, c.celular
+        FROM contacto_grupo AS  cg
+        RIGHT JOIN contacto AS c ON cg.contacto_id = c.contacto_id
+        WHERE cg.contacto_id is NULL
+        and c.usuario_id = #{usuarioId}
+        and c.estado  = 'VIGENTE'
+    </select>
+
+</mapper>

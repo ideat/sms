@@ -11,8 +11,10 @@ public interface ContactoMapper {
 	void insertContacto(Contacto contacto);
 	//void updateContacto(Contacto contacto);
 	Contacto findContactoById(int id);
-	List<Contacto> findContactoByUser(String usuario);
-	ArrayList<Contacto> contactSelected(@Param("usuario") String usuario, @Param("list") List<String> celulares);
+	List<Contacto> findContactoByUser(int usuarioId);
+	List<Contacto> findAvailableContactoByGroup(int grupoId);
+	List<Contacto> findAvailableContactoActivo();
+	ArrayList<Contacto> contactSelected(@Param("usuarioId") int usuarioId, @Param("list") List<String> celulares);
 	int deleteContacto(int id);
 
 }

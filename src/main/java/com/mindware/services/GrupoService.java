@@ -1,5 +1,6 @@
 package com.mindware.services;
 
+import com.mindware.domain.Contacto;
 import com.mindware.domain.Grupo;
 import com.mindware.mappers.GrupoMapper;
 import com.mindware.util.MyBatisSqlSessionFactory;
@@ -33,6 +34,19 @@ public class GrupoService {
             sqlSession.close();
         }
     }
+
+    public List<Contacto> getContactosGrupo(int grupoId){
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            GrupoMapper grupoMapper= sqlSession.getMapper(GrupoMapper.class);
+            return grupoMapper.getContactosGrupo(grupoId);
+        }
+        finally {
+            sqlSession.close();
+        }
+    }
+
+
     public Grupo insertGrupo(Grupo grupo) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
 
@@ -47,6 +61,9 @@ public class GrupoService {
 
         return grupo;
     }
+
+    
+
     public void deleteGrupo (int grupoId) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {

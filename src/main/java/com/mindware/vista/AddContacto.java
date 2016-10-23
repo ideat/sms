@@ -88,8 +88,8 @@ public class AddContacto extends Window implements ClickListener{
 				contacto.setCampo3(textField_9.getValue());
 				java.util.Date fecha = new Date();
 				contacto.setFechaImportacion(fecha);
-				contacto.setEstado("Activo");
-				contacto.setUsuario("admin");
+				contacto.setEstado("VIGENTE");
+				contacto.setUsuarioId(1); //TODO reemplazar con el codigo del usuario de logeo
 				contactoService.insertaContacto(contacto);
 				MessageBox.createInfo()
 						.withCaption("Registro")

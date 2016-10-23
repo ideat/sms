@@ -1,6 +1,8 @@
 package com.mindware.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Grupo {
 	private Integer grupoId;
@@ -9,6 +11,15 @@ public class Grupo {
 	private Date fechaCreacion;
 	private Integer usuarioId;
 	private Integer numeroMiembros;
+	private List<Contacto> contactos = new ArrayList<>();
+
+	public List<Contacto> getContactos() {
+		return contactos;
+	}
+
+	public void setContactos(List<Contacto> contactos) {
+		this.contactos = contactos;
+	}
 
 	public Integer getNumeroMiembros() {
 		return numeroMiembros;

@@ -98,37 +98,36 @@ public class ListaContactos extends CustomComponent{
 			}
 		});
 
-
 		//Llenar contactos
 		contactoService = new ContactoService();
-		llenarContactos(contactoService.findContactoByUser("adm"));
+		llenarContactos(contactoService.findContactoByUser(1)); //TODO reemplazar 1 por el codigo de logeo del usuario
 		seleccionarCelulares();
 
 
 	}
 	
 	private void llenarContactos(List<Contacto> contactos) {
+		if (contactos.size() >0) {
 
+			IndexedContainer containerContacto = new IndexedContainer();
 
-		IndexedContainer containerContacto= new IndexedContainer();
+			containerContacto.addContainerProperty("Celular", String.class, "");
+			containerContacto.addContainerProperty("Contacto", String.class, "");
+			containerContacto.addContainerProperty("Campo1", String.class, "");
+			containerContacto.addContainerProperty("Campo2", String.class, "");
+			containerContacto.addContainerProperty("Campo3", String.class, "");
 
-		containerContacto.addContainerProperty("Celular",String.class,"");
-		containerContacto.addContainerProperty("Contacto",String.class,"");
-		containerContacto.addContainerProperty("Campo1", String.class,"");
-		containerContacto.addContainerProperty("Campo2",String.class,"");
-		containerContacto.addContainerProperty("Campo3", String.class,"");
+			for (Contacto contacto : contactos) {
+				Item item = containerContacto.addItem(contacto);
+				item.getItemProperty("Celular").setValue(contacto.getCelular());
+				item.getItemProperty("Contacto").setValue(contacto.getNombreContacto());
+				item.getItemProperty("Campo1").setValue(contacto.getCampo1());
+				item.getItemProperty("Campo2").setValue(contacto.getCampo2());
+				item.getItemProperty("Campo3").setValue(contacto.getCampo3());
 
-		for(Contacto contacto: contactos ){
-			Item item = containerContacto.addItem(contacto);
-			item.getItemProperty("Celular").setValue(contacto.getCelular());
-			item.getItemProperty("Contacto").setValue(contacto.getNombreContacto());
-			item.getItemProperty("Campo1").setValue(contacto.getCampo1());
-			item.getItemProperty("Campo2").setValue(contacto.getCampo2());
-			item.getItemProperty("Campo3").setValue(contacto.getCampo3());
-
+			}
+			tbl_contactos.setContainerDataSource(containerContacto);
 		}
-		tbl_contactos.setContainerDataSource(containerContacto);
-
 	}
 
 	public void seleccionarCelulares() {

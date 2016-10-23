@@ -33,12 +33,35 @@ public class ContactoService {
         }
     }
 
-    public List<Contacto> findContactoByUser(String usuario) {
+    public List<Contacto> findContactoByUser(int usuarioId) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
-            return contactoMapper.findContactoByUser(usuario);
 
+            return contactoMapper.findContactoByUser(usuarioId);
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Contacto> findAvailableContactoByGroup(int grupoId) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+
+            return contactoMapper.findAvailableContactoByGroup(grupoId);
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Contacto> findAvailableContactoActivo() {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+            return contactoMapper.findAvailableContactoActivo();
         } finally {
             sqlSession.close();
         }
@@ -90,12 +113,12 @@ public class ContactoService {
 
     }
 
-    public ArrayList<Contacto> contactSelected(String usuario, List<String> celulares) {
+    public ArrayList<Contacto> contactSelected(int usuarioId, List<String> celulares) {
         ArrayList<Contacto> listCell = new ArrayList<>();
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper mapper = sqlSession.getMapper(ContactoMapper.class);
-            listCell = mapper.contactSelected(usuario,celulares);
+            listCell = mapper.contactSelected(usuarioId,celulares);
             sqlSession.commit();
             return listCell;
         }

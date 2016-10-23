@@ -115,8 +115,8 @@ public class CargarArchivo extends Window  {
 							}
 
 						}
-						contacto.setEstado("Activo");
-						contacto.setUsuario("adm");
+						contacto.setEstado("ACTIVO");
+						contacto.setUsuarioId(1); //TODO cambiar por el usuario de logeo
 						java.util.Date fecha = new Date();
 						contacto.setFechaImportacion(fecha);
 						listaContactos.add(contacto);
