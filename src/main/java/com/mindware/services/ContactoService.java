@@ -69,13 +69,13 @@ public class ContactoService {
 
     public void insertaContacto(Contacto contacto) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
-        try {
-            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
-            contactoMapper.insertContacto(contacto);
-            sqlSession.commit();
-        } finally {
-            sqlSession.close();
-        }
+            try {
+                ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+                contactoMapper.insertContacto(contacto);
+                sqlSession.commit();
+            } finally {
+                sqlSession.close();
+            }
     }
 
     public void insertarContactos(List<Contacto> contactos) {

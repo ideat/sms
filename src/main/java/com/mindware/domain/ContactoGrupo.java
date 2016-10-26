@@ -2,22 +2,31 @@ package com.mindware.domain;
 
 
 public class ContactoGrupo {
-	private Integer contacto_id;
-	private Integer grupo_id;
+	private Integer contactoGrupoId;
+	private Integer contactoId;
+	private Integer grupoId;
 
-	public Integer getContacto_id() {
-		return contacto_id;
+	public Integer getContactoGrupoId() {
+		return contactoGrupoId;
 	}
-	public void setContacto_id(Integer contacto_id) {
-		this.contacto_id = contacto_id;
+
+	public void setContactoGrupoId(Integer contactoGrupoId) {
+		this.contactoGrupoId = contactoGrupoId;
 	}
-	public Integer getGrupo_id() {
-		return grupo_id;
+
+	public Integer getContactoId() {
+		return contactoId;
 	}
-	public void setGrupo_id(Integer grupo_id) {
-		this.grupo_id = grupo_id;
+
+	public void setContactoId(Integer contactoId) {
+		this.contactoId = contactoId;
 	}
-	
-	
-	
+
+	public Integer getGrupoId() {
+		return grupoId;
+	}
+
+	public void setGrupoId(Integer grupoId) {
+		this.grupoId = grupoId;
+	}
 }

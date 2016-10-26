@@ -10,6 +10,7 @@ import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import de.steinwedel.messagebox.MessageBox;
 
 import java.util.List;
 
@@ -78,7 +79,14 @@ public class GrupoForm extends CustomComponent {
                 Object value = event.getItemId();
                 grupo = (Integer) tblListaGrupos.getItem(value).getItemProperty("ID").getValue();
                 List<Contacto> contacto = grupoService.getContactosGrupo(grupo);
-                llenarContactos(contacto);
+				if (contacto.size() > 0) {
+					llenarContactos(contacto);
+				} else {
+					MessageBox.createInfo()
+							.withCaption("Contactos Grupo")
+							.withMessage("Grupo sin contactos")
+							.open();
+				}
             }
         });
 
@@ -96,12 +104,14 @@ public class GrupoForm extends CustomComponent {
             containerContacto.addContainerProperty("Campo3", String.class, "");
         if (contactos.size()> 0) {
             for (Contacto contacto : contactos) {
-                Item item = containerContacto.addItem(contacto);
-                item.getItemProperty("Celular").setValue(contacto.getCelular());
-                item.getItemProperty("Contacto").setValue(contacto.getNombreContacto());
-                item.getItemProperty("Campo1").setValue(contacto.getCampo1());
-                item.getItemProperty("Campo2").setValue(contacto.getCampo2());
-                item.getItemProperty("Campo3").setValue(contacto.getCampo3());
+				if (contacto != null) {
+					Item item = containerContacto.addItem(contacto);
+					item.getItemProperty("Celular").setValue(contacto.getCelular());
+					item.getItemProperty("Contacto").setValue(contacto.getNombreContacto());
+					item.getItemProperty("Campo1").setValue(contacto.getCampo1());
+					item.getItemProperty("Campo2").setValue(contacto.getCampo2());
+					item.getItemProperty("Campo3").setValue(contacto.getCampo3());
+				}
 
             }
             tblMiembros.setContainerDataSource(containerContacto);

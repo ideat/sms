@@ -1,7 +1,7 @@
 package com.mindware.services;
 
-import com.mindware.domain.Contacto;
-import com.mindware.mappers.GrupoMapper;
+import com.mindware.domain.ContactoGrupo;
+import com.mindware.mappers.ContactoGrupoMapper;
 import com.mindware.util.MyBatisSqlSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
@@ -12,16 +12,40 @@ import java.util.List;
  */
 public class ContactoGrupoService {
 
-public List<Contacto> getContactosGrupo(int grupoId){
+    public void deleteContactoGrupo(int contactoId, int grupoId) {
     SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
     try {
-        GrupoMapper grupoMapper= sqlSession.getMapper(GrupoMapper.class);
-        return grupoMapper.getContactosGrupo(grupoId);
-    }
-    finally {
+        ContactoGrupoMapper contactoGrupoMapper = sqlSession.getMapper(ContactoGrupoMapper.class);
+        contactoGrupoMapper.deleteContactoGrupo(contactoId,grupoId);
+        sqlSession.commit();
+    } finally {
         sqlSession.close();
     }
-}
+    }
 
+    public void deleteContactosGrupo(int grupoId) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoGrupoMapper contactoGrupoMapper = sqlSession.getMapper(ContactoGrupoMapper.class);
+            contactoGrupoMapper.deleteContactosGrupo(grupoId);
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public void insertContactoGrupo(List<ContactoGrupo> contactoGrupoList) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoGrupoMapper contactoGrupoMapper = sqlSession.getMapper(ContactoGrupoMapper.class);
+            for (ContactoGrupo contactoGrupo : contactoGrupoList) {
+                contactoGrupoMapper.insertContactoGrupo(contactoGrupo);
+            }
+
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
+    }
 
 }
