@@ -11,6 +11,33 @@ public class Mensaje {
 	private String nombre;
 	private String grupo;
 	private String celular;
+	private Integer contacto_id;
+	private Integer longitud_sms;
+	private Integer numero_intentos;
+
+	public Integer getContacto_id() {
+		return contacto_id;
+	}
+
+	public void setContacto_id(Integer contacto_id) {
+		this.contacto_id = contacto_id;
+	}
+
+	public Integer getLongitud_sms() {
+		return longitud_sms;
+	}
+
+	public void setLongitud_sms(Integer longitud_sms) {
+		this.longitud_sms = longitud_sms;
+	}
+
+	public Integer getNumero_intentos() {
+		return numero_intentos;
+	}
+
+	public void setNumero_intentos(Integer numero_intentos) {
+		this.numero_intentos = numero_intentos;
+	}
 
 	public Integer getMensaje_id() {
 		return mensaje_id;

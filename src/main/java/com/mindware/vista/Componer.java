@@ -1,5 +1,6 @@
 package com.mindware.vista;
 
+import com.mindware.domain.Contacto;
 import com.mindware.domain.Mensaje;
 import com.mindware.services.ContactoService;
 import com.mindware.services.MensajeService;
@@ -101,7 +102,11 @@ public class Componer extends CustomComponent {
 		txtMensaje.setTextChangeEventMode(TextChangeEventMode.EAGER);
 		setVariable();
 		Formato();
+		//Envio de mensajes
+		sendMessages();
+	}
 
+	private void sendMessages() {
 		btnEnviarBandejaSalida.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
@@ -110,8 +115,8 @@ public class Componer extends CustomComponent {
 					contactoService = new ContactoService();
 					//TODO reemplazar el 1 por el codigo de usuario de logeo
 					List<Mensaje> mensajes = mensajeService.prepararMensajes(txtMensaje.getValue(),
-															contactoService.contactSelected(1,
-															numeroCelulares(txtNumeros.getValue())), grupo);
+							contactoService.contactSelected(1,
+									numeroCelulares(txtNumeros.getValue())), grupo);
 					mensajeService.insertarMensaje(mensajes);
 					MessageBox.createInfo()
 							.withCaption("Bandeja Salida")
@@ -122,14 +127,17 @@ public class Componer extends CustomComponent {
 				catch (Exception e) {
 					MessageBox.createError()
 							.withCaption("Error")
-							.withMessage("Error al enviar a la Bandeja de Salida ")
+							.withMessage("Error al enviar a la Bandeja de Salida " + e)
 							.withAbortButton()
 							.open();
 				}
 
 			}
 		});
+
+
 	}
+
 
 	private void limpiar() {
 		txtMensaje.clear();
@@ -154,8 +162,6 @@ public class Componer extends CustomComponent {
 		cmbVariables.addItem("campo1");
 		cmbVariables.addItem("campo2");
 		cmbVariables.addItem("campo3");
-		cmbGrupo.addItem("grupo1");
-		cmbGrupo.addItem("grupo2");
 	}
 
 	private void Formato() {
@@ -167,13 +173,14 @@ public class Componer extends CustomComponent {
 		btnEnviar.addStyleName("boton");
 	}
 
-
 	//Obtiene la lista de contactos seleccionados
-//	private List<Contacto> obtenerListaContactos() {
-//		contactoService = new ContactoService();
-//		List<Contacto> listContactos = contactoService.contactSelected("adm",listCell); //TODO reemplazar usuario por variable
-//		return listContactos;
-//	}
+	private List<Contacto> obtenerListaContactos() {
+		contactoService = new ContactoService();
+		//TODO: Reemplazar 1 por el codigo de usuario
+		List<Contacto> listContactos = contactoService.contactSelected(1,
+				numeroCelulares(txtNumeros.getValue().toString()));
+		return listContactos;
+	}
 
 	public List<String> numeroCelulares(String celulares) {
 		txtNumeros.setValue(celulares);

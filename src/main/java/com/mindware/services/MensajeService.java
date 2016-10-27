@@ -22,7 +22,7 @@ public class MensajeService {
             //Obtiene valores de los campo
             Mensaje mensajeObj = new Mensaje();
             String mensaje = crearMensaje(plantilla,contacto);
-
+            Integer longitud = mensaje.length();
             mensajeObj.setCelular(contacto.getCelular());
             mensajeObj.setEnviado("F"); //Inicializa en falso
             mensajeObj.setFecha_envio(null);
@@ -30,6 +30,8 @@ public class MensajeService {
             mensajeObj.setHora_envio(null);
             mensajeObj.setNombre(contacto.getNombreContacto());
             mensajeObj.setMensaje(mensaje);
+            mensajeObj.setContacto_id(contacto.getContactoId());
+            mensajeObj.setLongitud_sms(longitud);
 
             listaMensaje.add(mensajeObj);
         }

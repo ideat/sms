@@ -51,7 +51,7 @@ public class AddGrupo extends Window {
 	final Label current = new Label("Selected: -");
 
 	private List<Contacto> itemsSelectedLeft  = new ArrayList<>();
-	private List<Object> itemsSelectedRight = new ArrayList<>();
+	private List<Contacto> itemsSelectedRight = new ArrayList<>();
 
 	private Integer grupoId;
 	private List<Integer> contactosId;
@@ -171,6 +171,13 @@ public class AddGrupo extends Window {
 			}
 		});
 
+		btnMoveLeft.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				moveDataToLeft();
+			}
+		});
+
 	}
 
 	private void moveDataToRight() {
@@ -178,6 +185,14 @@ public class AddGrupo extends Window {
 			fillTableRight(itemsSelectedLeft);
 			refreshTableLeft();
 			itemsSelectedLeft.clear();
+		}
+	}
+
+	private void moveDataToLeft() {
+		if (itemsSelectedRight.size()>0) {
+			moveDataTableLeft(itemsSelectedRight);
+			refreshTableRight();
+			itemsSelectedRight.clear();
 		}
 	}
 
@@ -196,13 +211,32 @@ public class AddGrupo extends Window {
 				//if(delete.getContactoId() == i.getContactoId()) {
 				if (c.getContactoId() == i.getContactoId()){
 					tableLeft.removeItem(c);
-				//	modif.remove(c);
 				}
 			}
 
 		}
 
 	}
+
+
+	private void refreshTableRight() {
+
+		IndexedContainer lista  = (IndexedContainer) tableRight.getContainerDataSource();
+		//List<Contacto> con = (List<Contacto>)lista.getItemIds();
+		List<Contacto> modif  =  new CopyOnWriteArrayList(lista.getItemIds());
+		//	Iterator<Contacto> iter = modif.iterator();
+		for(Contacto c : modif) {
+			for(Contacto i : itemsSelectedRight) {
+				//if(delete.getContactoId() == i.getContactoId()) {
+				if (c.getContactoId() == i.getContactoId()){
+					tableRight.removeItem(c);
+				}
+			}
+
+		}
+
+	}
+
 
 	private void selectAllTableLeft(){
 		IndexedContainer container = (IndexedContainer) tableLeft.getContainerDataSource();
@@ -252,27 +286,22 @@ public class AddGrupo extends Window {
 		tableRight.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 			@Override
 			public void itemClick(ItemClickEvent event) {
-				Object value = event.getItem(); // event.getItem().getItemProperty("Celular").getValue();//tableLeft.getValue();
-				if (!itemsSelectedRight.contains(value)) {
+				Contacto value = new Contacto();
+				value.setCelular(event.getItem().getItemProperty("Celular").getValue().toString());
+				value.setNombreContacto(event.getItem().getItemProperty("Contacto").getValue().toString());
+				value.setCampo1(event.getItem().getItemProperty("Campo1").getValue().toString());
+				value.setCampo2(event.getItem().getItemProperty("Campo2").getValue().toString());
+				value.setCampo3(event.getItem().getItemProperty("Campo3").getValue().toString());
+				value.setContactoId((Integer) event.getItem().getItemProperty("ID").getValue());
+
+				if (!searchContacto(value.getContactoId(),itemsSelectedRight)) {
 					itemsSelectedRight.add(value);
 				}
-				else {
-					itemsSelectedRight.remove(value);
-				}
 			}
 		});
 	}
 
 
-	private void asignarContacto() {
-		btnMoveLeft.addClickListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-
-
-			}
-		});
-	}
 
 	private int numeroMiembros() {
 		int i = tableRight.size();
@@ -280,9 +309,12 @@ public class AddGrupo extends Window {
 	}
 
 	private void fillTableRight(List<Contacto> contactos) {
-//		List<Contacto> contactos;
-//		contactoService = new ContactoService();
-		IndexedContainer containerContactoAsignado = new IndexedContainer();
+		IndexedContainer containerContactoAsignado;
+		if (tableRight.size() ==0) {
+			containerContactoAsignado = new IndexedContainer();
+		} else {
+			containerContactoAsignado = (IndexedContainer) tableRight.getContainerDataSource();
+		}
 
 		containerContactoAsignado.addContainerProperty("Celular", String.class, null);
 		containerContactoAsignado.addContainerProperty("Contacto", String.class, null);
@@ -291,12 +323,6 @@ public class AddGrupo extends Window {
 		containerContactoAsignado.addContainerProperty("Campo3", String.class, null);
 		containerContactoAsignado.addContainerProperty("ID", Integer.class, null);
 
-//		Contacto contacto = new Contacto();
-//		containerContactoAsignado.addItem(contacto);
-
-//		contactos = contactoService.findAvailableContactoActivo();
-//
-//		if (contactos.size() > 0) {
 			for (Contacto contacto : contactos) {
 				Item item = containerContactoAsignado.addItem(contacto);
 				item.getItemProperty("Celular").setValue(contacto.getCelular());
@@ -306,14 +332,37 @@ public class AddGrupo extends Window {
 				item.getItemProperty("Campo3").setValue(contacto.getCampo3());
 				item.getItemProperty("ID").setValue(contacto.getContactoId());
 			}
-//		}
-
-
 
 		tableRight.setContainerDataSource(containerContactoAsignado);
-//		containerContactoAsignado.removeItem(contacto);
-		//tableLeft.removeItem(contacto);
+
 	}
+
+
+	private void moveDataTableLeft(List<Contacto> contactos) {
+		IndexedContainer containerContactoAsignado = (IndexedContainer) tableLeft.getContainerDataSource();
+
+
+		containerContactoAsignado.addContainerProperty("Celular", String.class, null);
+		containerContactoAsignado.addContainerProperty("Contacto", String.class, null);
+		containerContactoAsignado.addContainerProperty("Campo1", String.class, null);
+		containerContactoAsignado.addContainerProperty("Campo2", String.class, null);
+		containerContactoAsignado.addContainerProperty("Campo3", String.class, null);
+		containerContactoAsignado.addContainerProperty("ID", Integer.class, null);
+
+		for (Contacto contacto : contactos) {
+			Item item = containerContactoAsignado.addItem(contacto);
+			item.getItemProperty("Celular").setValue(contacto.getCelular());
+			item.getItemProperty("Contacto").setValue(contacto.getNombreContacto());
+			item.getItemProperty("Campo1").setValue(contacto.getCampo1());
+			item.getItemProperty("Campo2").setValue(contacto.getCampo2());
+			item.getItemProperty("Campo3").setValue(contacto.getCampo3());
+			item.getItemProperty("ID").setValue(contacto.getContactoId());
+		}
+
+		tableLeft.setContainerDataSource(containerContactoAsignado);
+
+	}
+
 
 	private void fillTableLeft() {
 		List<Contacto> contactos;

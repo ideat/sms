@@ -47,13 +47,15 @@
     <select id="findAvailableContactoActivo" resultMap="ContactoResult" >
         select c.contacto_id, c.celular, c.nombre_contacto, c.campo1, c.campo2, c.campo3
         from contacto c
-        where c.estado = 'ACTIVO'
+        where c.estado = 'V'
         order by nombre_contacto
     </select>
 
     <select id="contactSelected" resultMap="ContactoResult"  parameterType="map">
-        select contacto_id, celular, nombre_contacto, campo1, campo2, campo3 from contacto
+        select contacto_id, celular, nombre_contacto, campo1, campo2, campo3
+        from contacto
         where usuario_id = #{usuarioId}
+        and estado = 'ACTIVO'
         and celular in  <!--('60700381','8902343')-->
         <foreach item="item"  index="index" collection="list" separator="," open="(" close=")">
             #{item}
