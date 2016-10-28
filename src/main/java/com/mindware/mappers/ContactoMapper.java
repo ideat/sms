@@ -15,6 +15,7 @@ public interface ContactoMapper {
 	List<Contacto> findAvailableContactoByGroup(int grupoId);
 	List<Contacto> findAvailableContactoActivo();
 	ArrayList<Contacto> contactSelected(@Param("usuarioId") int usuarioId, @Param("list") List<String> celulares);
+	ArrayList<Contacto> contactByGroup(int grupoId);
 	int deleteContacto(int id);
 
 }

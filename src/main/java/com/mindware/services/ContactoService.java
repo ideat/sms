@@ -134,6 +134,27 @@ public class ContactoService {
     }
 
 
+    public ArrayList<Contacto> contactByGroup(int grupoId) {
+        ArrayList<Contacto> listContacto = new ArrayList<>();
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper mapper = sqlSession.getMapper(ContactoMapper.class);
+            listContacto = mapper.contactByGroup(grupoId);
+            sqlSession.commit();
+            return listContacto;
+        }
+        catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+            throw new RuntimeException(e.getCause());
+        }
+        finally {
+            sqlSession.close();
+        }
+
+    }
+
+
 
 
 

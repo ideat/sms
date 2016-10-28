@@ -63,6 +63,16 @@
 
     </select>
 
+    <select id="contactByGroup" resultMap="ContactoResult"  parameterType="int">
+        select c.contacto_id, c.celular, c.nombre_contacto, c.campo1, c.campo2, c.campo3
+        from contacto c
+        inner join contacto_grupo cg on (cg.contacto_id = c.contacto_id)
+        where cg.grupo_id = #{grupoId}
+        and c.estado = 'ACTIVO'
+
+    </select>
+
+
     <insert id="insertContacto"  parameterType="contacto" keyProperty="contactoId" >
         <selectKey keyProperty="contactoId" resultType="int" order="BEFORE">
             select nextval('contacto_id_seq')
