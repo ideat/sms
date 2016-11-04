@@ -55,6 +55,15 @@
         values ( #{grupoId},#{nombreGrupo}, #{estado}, #{usuarioId}, #{numeroMiembros}, #{fechaCreacion})
     </insert>
 
+    <update id="updateGrupo" parameterType="grupo" >
+        update grupo
+        set nombre_grupo = #{nombreGrupo}
+        , estado = #{estado}
+        , numero_miembros = #{numeroMiembros}
+        where grupo_id = #{grupoId}
+
+    </update>
+
     <delete id="deleteGrupo" parameterType="int">
         delete from grupo
         where grupo_id = #{grupoId}

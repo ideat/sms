@@ -62,8 +62,6 @@ public class GrupoService {
         return grupo;
     }
 
-    
-
     public void deleteGrupo (int grupoId) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
@@ -75,5 +73,17 @@ public class GrupoService {
             sqlSession.close();
         }
 
+    }
+
+    public void updateGrupo(Grupo grupo) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            GrupoMapper grupoMapper = sqlSession.getMapper(GrupoMapper.class);
+            grupoMapper.updateGrupo(grupo);
+            sqlSession.commit();
+        }
+        finally {
+            sqlSession.close();
+        }
     }
 }

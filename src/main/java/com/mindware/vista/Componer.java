@@ -19,6 +19,7 @@ import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import de.steinwedel.messagebox.MessageBox;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -113,6 +114,19 @@ public class Componer extends CustomComponent {
   	    sendMessages();
 	}
 
+	public void setValueComboGrupo(String nombreGrupo, int codigoGrupo) {
+		grupo = nombreGrupo;
+		grupoId = codigoGrupo;
+		for(Iterator it = cmbGrupo.getItemIds().iterator(); it.hasNext();) {
+			Object id = (Object) it.next();
+			if (cmbGrupo.getItem(id).getItemProperty("grupoId").getValue() == grupoId) {
+				cmbGrupo.select(id);
+				break;
+			}
+		}
+
+	}
+
 	private void sendMessages() {
 		btnEnviarBandejaSalida.addClickListener(new Button.ClickListener() {
 			@Override
@@ -131,8 +145,6 @@ public class Componer extends CustomComponent {
                              mensajes = mensajeService.prepararMensajes(txtMensaje.getValue(),
                                     contactoService.contactByGroup(grupoId), grupo);
                         }
-
-
 
                         mensajeService.insertarMensaje(mensajes);
                         MessageBox.createInfo()

@@ -18,6 +18,12 @@
         <result property="longitudSms" column="longitud_sms"/>
     </resultMap>
 
+    <select id="findAllMensajesUsuario" resultMap="MensajeResult">
+
+    </select>
+
+
+
     <insert id="insertarMensaje" parameterType="mensaje" keyProperty="mensaje_id" >
         <selectKey keyProperty="mensaje_id" resultType="int" order="BEFORE">
             select nextval('mensaje_id_seq')
@@ -28,12 +34,6 @@
         (#{mensaje_id}, #{contacto_id}, #{mensaje}, #{fecha_envio},
         #{hora_envio},#{enviado},#{celular}, #{nombre}, #{grupo}, #{longitud_sms})
     </insert>
-
-    <select id="findAllMensajesUsuario" resultMap="MensajeResult">
-
-    </select>
-
-
 
 
 </mapper>

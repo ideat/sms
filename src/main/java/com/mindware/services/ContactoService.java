@@ -6,17 +6,50 @@ import com.mindware.util.MyBatisSqlSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by freddy on 03-08-16.
  */
 public class ContactoService {
+
     public List<Contacto> findAllContactos() {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
             return contactoMapper.findAllContactos();
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public void updateContacto(Contacto contacto) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+            contactoMapper.updateContacto(contacto);
+            sqlSession.commit();
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public int verificarAsignacionContactoGrupo(int contactoId) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+            return contactoMapper.verificarAsignacionContactoGrupo(contactoId);
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public int verificarContactoMensaje(int contactoId) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+            return contactoMapper.verificarContactoMensaje(contactoId);
         }finally {
             sqlSession.close();
         }
@@ -45,23 +78,35 @@ public class ContactoService {
         }
     }
 
-    public List<Contacto> findAvailableContactoByGroup(int grupoId) {
+    public List<Contacto> findAvailableContactoByGroup(int grupoId, Date fechaImportacion) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
 
-            return contactoMapper.findAvailableContactoByGroup(grupoId);
+            return contactoMapper.findAvailableContactoByGroup(grupoId, fechaImportacion);
 
         } finally {
             sqlSession.close();
         }
     }
 
-    public List<Contacto> findAvailableContactoActivo() {
+    public List<Contacto> findAsignedContactoByGroup(int grupoId) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
-            return contactoMapper.findAvailableContactoActivo();
+
+            return contactoMapper.findAsignedContactoByGroup(grupoId);
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Contacto> findAvailableContactoActivo(int grupo, Date fechaImportacion) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            ContactoMapper contactoMapper = sqlSession.getMapper(ContactoMapper.class);
+            return contactoMapper.findAvailableContactoActivo(grupo, fechaImportacion);
         } finally {
             sqlSession.close();
         }
@@ -94,11 +139,11 @@ public class ContactoService {
         }
     }
 
-    public boolean deleteContacto(int id) {
+    public boolean deleteContacto(int contacto_id) {
         SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
         try {
             ContactoMapper mapper = sqlSession.getMapper(ContactoMapper.class);
-            int count = mapper.deleteContacto(id);
+            int count = mapper.deleteContacto(contacto_id);
             sqlSession.commit();
             return count > 0;
         }

@@ -14,6 +14,7 @@ public interface GrupoMapper {
     List<Grupo> getMiembrosGrupo();
     List<Contacto> getContactosGrupo(int grupoId);
     void insertGrupo(Grupo grupo);
+    void updateGrupo(Grupo grupo);
     int deleteGrupo(int grupoId);
 
 }

@@ -46,6 +46,7 @@ public class AddGrupo extends Window {
 	private Button btnMoveLeft;
 	private Button btnMoveRight;
 	private Button btnMoveAllRight;
+	private Button btnMoveAllLeft;
 	private GrupoService grupoService;
 	private ContactoService contactoService;
 	final Label current = new Label("Selected: -");
@@ -178,6 +179,15 @@ public class AddGrupo extends Window {
 			}
 		});
 
+		btnMoveAllLeft.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				selectAllTableRight();
+				moveDataToLeft();
+			}
+		});
+
+
 	}
 
 	private void moveDataToRight() {
@@ -246,6 +256,16 @@ public class AddGrupo extends Window {
 			itemsSelectedLeft.add(contacto);
 		}
 	}
+
+	private void selectAllTableRight(){
+		IndexedContainer container = (IndexedContainer) tableRight.getContainerDataSource();
+		List<Contacto> contactos = (List<Contacto>) container.getItemIds();
+		itemsSelectedRight.clear(); //Limpia si tiene datos
+		for(Contacto contacto : contactos) {
+			itemsSelectedRight.add(contacto);
+		}
+	}
+
 
 	private void selectedTableLeftClick () {
 
@@ -376,7 +396,7 @@ public class AddGrupo extends Window {
 		containerContactoDisponible.addContainerProperty("Campo3", String.class, null);
 		containerContactoDisponible.addContainerProperty("ID", Integer.class, null);
 
-		contactos = contactoService.findAvailableContactoActivo();
+		contactos = contactoService.findContactoByUser(1);
 
 		if (contactos.size() > 0) {
 			for (Contacto contacto : contactos) {
@@ -507,6 +527,12 @@ public class AddGrupo extends Window {
 		btnMoveLeft.setCaption(" < ");
 		btnMoveLeft.setImmediate(true);
 		verticalButton.addComponent(btnMoveLeft);
+
+		// btnMoveAllLeft
+		btnMoveAllLeft = new Button();
+		btnMoveAllLeft.setCaption(" << ");
+		btnMoveAllLeft.setImmediate(true);
+		verticalButton.addComponent(btnMoveAllLeft);
 
 		return  verticalButton;
 	}

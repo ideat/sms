@@ -88,7 +88,7 @@ public class AddContacto extends Window implements ClickListener{
 				contacto.setCampo3(textField_9.getValue());
 				java.util.Date fecha = new Date();
 				contacto.setFechaImportacion(fecha);
-				contacto.setEstado("VIGENTE");
+				contacto.setEstado("ACTIVO");
 				contacto.setUsuarioId(1); //TODO reemplazar con el codigo del usuario de logeo
 				contactoService.insertaContacto(contacto);
 				MessageBox.createInfo()
@@ -139,7 +139,7 @@ public class AddContacto extends Window implements ClickListener{
 		
 		// top-level component properties
 		setWidth("100.0%");
-		setHeight("450px");
+		setHeight("500px");
 		
 		// gridLayout_1
 		gridLayout_1 = buildGridLayout_1();
@@ -166,7 +166,7 @@ public class AddContacto extends Window implements ClickListener{
 		// common part: create layout
 		gridLayout_1 = new GridLayout();
 		gridLayout_1.setImmediate(false);
-		gridLayout_1.setWidth("530px");
+		gridLayout_1.setWidth("500px");
 		gridLayout_1.setHeight("300px");
 		gridLayout_1.setMargin(false);
 		gridLayout_1.setColumns(2);

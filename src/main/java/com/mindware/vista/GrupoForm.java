@@ -40,6 +40,7 @@ public class GrupoForm extends CustomComponent {
 	private Button btnNuevo;
 	private static GrupoService grupoService;
     private int grupo;
+	private String nombreGrupo;
     private Contacto contacto;
 
 	public GrupoForm() {
@@ -68,9 +69,62 @@ public class GrupoForm extends CustomComponent {
 		});
 
         selectTableGrupo();
+		clickEditGrupo();
+		componerMensaje();
+	}
+
+	//Componer mensaje para grupo seleccionado
+	private void componerMensaje() {
+		btnComponer.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Window subWindowComponer = new Window("Componer Mensaje");
+				Componer componerMensaje = new Componer();
+				componerMensaje.setValueComboGrupo(nombreGrupo, grupo);
+				subWindowComponer.setContent(componerMensaje);
+				subWindowComponer.center();
+				subWindowComponer.setModal(true);
+				subWindowComponer.setWidth("700px");
+				UI.getCurrent().addWindow(subWindowComponer);
+
+				subWindowComponer.addCloseListener(new Window.CloseListener() {
+					@Override
+					public void windowClose(Window.CloseEvent e) {
+
+					}
+				});
+
+			}
+		});
+	}
+
+	//Edita el grupo seleccionado
+	private void clickEditGrupo() {
+		btnEditar.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				EditGrupo editGrupo = new EditGrupo(grupo, nombreGrupo);
+				editGrupo.setModal(true);
+				editGrupo.setWidth("900px");
+				editGrupo.setHeight("460px");
+				editGrupo.center();
+
+
+				UI.getCurrent().addWindow(editGrupo);
+
+				editGrupo.addCloseListener(new Window.CloseListener(){
+					@Override
+					public void windowClose(Window.CloseEvent e) {
+						cabeceraTablas();
+						llenarTabla();
+					}
+				});
+
+			}
+		});
 
 	}
-	//Seleccionar grupo_id donde se realizo click en la tabla de grupos (tblListaGrupos)
+	//Selecciona grupo_id donde se realizo click en la tabla de grupos (tblListaGrupos)
 	private void selectTableGrupo() {
 
 		tblListaGrupos.addItemClickListener(new ItemClickEvent.ItemClickListener() {
@@ -78,6 +132,7 @@ public class GrupoForm extends CustomComponent {
             public void itemClick(ItemClickEvent event) {
                 Object value = event.getItemId();
                 grupo = (Integer) tblListaGrupos.getItem(value).getItemProperty("ID").getValue();
+				nombreGrupo = tblListaGrupos.getItem(value).getItemProperty("Grupo").getValue().toString();
                 List<Contacto> contacto = grupoService.getContactosGrupo(grupo);
 				if (contacto.size() > 0) {
 					llenarContactos(contacto);
