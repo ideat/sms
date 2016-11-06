@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import static com.mindware.util.Tools.ValidarTelefono;
+
 //import com.mindware.utiles.ImportarCSV;
 
 @SuppressWarnings("serial")
@@ -60,13 +62,15 @@ public class CargarArchivo extends Window  {
 		setContent(mainLayout);
 
 	}
-	
+
+
 	
 	private void InsertarDatos() {
 		btnInsertar.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				int errores = 0;
 				contactoService = new ContactoService();
 				ArrayList <Contacto> listaContactos= new ArrayList <Contacto> ();
                 Container container = tblCSV.getContainerDataSource();
@@ -84,52 +88,78 @@ public class CargarArchivo extends Window  {
 					}
 					for (Object itemID : itemIDS) {
 						Contacto contacto = new Contacto();
-						for (int i = 0; i < columHeader.length; i++) {
-							Property property = container.getContainerProperty(itemID, columHeader[i]);
-							Object data = property.getValue();
-							switch (i) {
-								case 0:
-									contacto.setCelular(data.toString());
-									break;
-								case 1:
-									contacto.setNombreContacto(data.toString());
-									break;
-								case 2:
-									contacto.setCampo1(data.toString());
-									break;
-								case 3:
-									contacto.setCampo2(data.toString());
-									break;
-								case 4:
-									contacto.setCampo3(data.toString());
-									break;
-								default:
-									break;
+
+						Property p = container.getContainerProperty(itemID, columHeader[0]);
+						Object d = p.getValue();
+						if (ValidarTelefono(d.toString())) {
+
+
+							for (int i = 0; i < columHeader.length; i++) {
+								Property property = container.getContainerProperty(itemID, columHeader[i]);
+								Object data = property.getValue();
+								switch (i) {
+									case 0:
+										contacto.setCelular(data.toString());
+										break;
+									case 1:
+										contacto.setNombreContacto(data.toString());
+										break;
+									case 2:
+										contacto.setCampo1(data.toString());
+										break;
+									case 3:
+										contacto.setCampo2(data.toString());
+										break;
+									case 4:
+										contacto.setCampo3(data.toString());
+										break;
+									default:
+										break;
+								}
+
 							}
+							contacto.setEstado("ACTIVO");
+							contacto.setUsuarioId(1); //TODO cambiar por el usuario de logeo
+							java.util.Date fecha = new Date();
+							contacto.setFechaImportacion(fecha);
+							listaContactos.add(contacto);
 
+							//contactoService.insertarContacto(contacto);
+						} else {
+							errores++;
 						}
-						contacto.setEstado("ACTIVO");
-						contacto.setUsuarioId(1); //TODO cambiar por el usuario de logeo
-						java.util.Date fecha = new Date();
-						contacto.setFechaImportacion(fecha);
-						listaContactos.add(contacto);
 
-						//contactoService.insertarContacto(contacto);
 					}
-					try {
-						contactoService.insertarContactos(listaContactos);
 
-						MessageBox.createInfo()
-								.withCaption("Registro")
-								.withMessage("Datos importados con exito!")
+					if (errores > 0) {
+						MessageBox.createWarning()
+								.withCaption("Validacion Datos")
+								.withMessage("Son " + errores + " contactos no importados por tener celulares incorrectos")
 								.open();
+					}
 
-					} catch (Exception e) {
-						MessageBox.createError()
-								.withCaption("Error")
-								.withMessage("Error al importar datos, revise origen ")
-								.withAbortButton()
-								.open();
+					if (listaContactos.size()>0) {
+						try {
+							contactoService.insertarContactos(listaContactos);
+
+							MessageBox.createInfo()
+									.withCaption("Registro")
+									.withMessage("Datos importados con exito!")
+									.open();
+
+						} catch (Exception e) {
+							MessageBox.createError()
+									.withCaption("Error")
+									.withMessage("Error al importar datos, revise origen ")
+									.withAbortButton()
+									.open();
+						}
+					} else {
+						MessageBox.createWarning()
+							.withCaption("Importar datos")
+							.withMessage("Lista vacia, no se importaron datos")
+							.open();
+
 					}
 
 			}

@@ -62,7 +62,8 @@ public class smsUI extends UI {
     		layout.addMenuOption("Planificador",getAbsolutLayout());
     		layout.addMenuOption("Enviados",getAbsolutLayout());
     	//	layout.addMenuOption("Form layout",  formularios.FormularioConfiguracionCobros() );
-   		
+
+
     		setContent(layout);
 
 

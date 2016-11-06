@@ -1,6 +1,7 @@
 package com.mindware.mappers;
 
 import com.mindware.domain.Mensaje;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,5 +10,6 @@ import java.util.List;
  */
 public interface MensajeMapper {
     void insertarMensaje(Mensaje mensaje);
-    List<String> findAllMensajesUsuario(String usuario);
+    List<Mensaje> findMensajesUsuario(@Param("usuarioId") int usuarioId,
+                                         @Param("estado") String estado);
 }

@@ -10,29 +10,34 @@
         <result property="fechaEnvio" column="fecha_envio"/>
         <result property="horaEnvio" column="hora_envio"/>
         <result property="enviado" column="enviado"/>
-        <result property="fechaImportacion" column="fecha_importacion"/>
         <result property="celular" column="celular"/>
         <result property="nombre" column="nombre"/>
         <result property="grupo" column="grupo"/>
         <result property="contactoId" column="contacto_id"/>
         <result property="longitudSms" column="longitud_sms"/>
+        <result property="grupoId" column="grupo_id" />
+        <result property="mensaje" column="mensaje" />
     </resultMap>
 
-    <select id="findAllMensajesUsuario" resultMap="MensajeResult">
-
+    <select id="findMensajesUsuario" resultMap="MensajeResult" parameterType="map">
+        SELECT m.mensaje_id, m.fecha_envio, m.hora_envio, m.enviado, m.celular, m.nombre
+         , m.grupo, m.contacto_id, m.longitud_sms, m.grupo_id, m.mensaje
+        from mensaje m
+        where m.usuario_id= #{usuarioId}
+         and m.enviado = #{estado}
     </select>
 
 
 
-    <insert id="insertarMensaje" parameterType="mensaje" keyProperty="mensaje_id" >
-        <selectKey keyProperty="mensaje_id" resultType="int" order="BEFORE">
+    <insert id="insertarMensaje" parameterType="mensaje" keyProperty="mensajeId" >
+        <selectKey keyProperty="mensajeId" resultType="int" order="BEFORE">
             select nextval('mensaje_id_seq')
         </selectKey>
 
-        insert into mensaje (mensaje_id,contacto_id,mensaje, fecha_envio,
+        insert into mensaje (mensaje_id, usuario_id, contacto_id,grupo_id,mensaje, fecha_envio,
         hora_envio, enviado, celular, nombre, grupo, longitud_sms) VALUES
-        (#{mensaje_id}, #{contacto_id}, #{mensaje}, #{fecha_envio},
-        #{hora_envio},#{enviado},#{celular}, #{nombre}, #{grupo}, #{longitud_sms})
+        (#{mensajeId}, #{usuarioId}, #{contactoId}, #{grupoId}, #{mensaje}, #{fecha_envio},
+        #{hora_envio},#{enviado},#{celular}, #{nombre}, #{grupo}, #{longitudSms})
     </insert>
 
 

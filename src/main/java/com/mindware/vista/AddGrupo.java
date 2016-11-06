@@ -483,7 +483,7 @@ public class AddGrupo extends Window {
 		tableLeft.setMultiSelect(true);
 		//desable selected null value
 		tableLeft.setMultiSelectMode(MultiSelectMode.SIMPLE);
-		tableLeft.setNullSelectionAllowed(false);
+//		tableLeft.setNullSelectionAllowed(false);
 		tableLeft.setCaption("Contactos Disponibles");
 		tableLeft.setWidth("370px");
 		tableLeft.setHeight("250px");
@@ -498,7 +498,7 @@ public class AddGrupo extends Window {
 		tableRight.setMultiSelect(true);
 		//desable selected null value
 		tableRight.setMultiSelectMode(MultiSelectMode.SIMPLE);
-		tableRight.setNullSelectionAllowed(false);
+//		tableRight.setNullSelectionAllowed(false);
 		tableRight.setCaption("Contactos Asignados");
 		tableRight.setWidth("370px");
 		tableRight.setHeight("250px");;

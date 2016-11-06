@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class MensajeService {
 
-    public List<Mensaje> prepararMensajes(String plantilla, List<Contacto> contactos, String grupo) {
+    public List<Mensaje> prepararMensajes(String plantilla, List<Contacto> contactos, String grupo, int grupoId, int usuarioId) {
         List<Mensaje> listaMensaje = new ArrayList<>();
         //java.util.Date fecha = new Date();
 
@@ -30,8 +30,10 @@ public class MensajeService {
             mensajeObj.setHora_envio(null);
             mensajeObj.setNombre(contacto.getNombreContacto());
             mensajeObj.setMensaje(mensaje);
-            mensajeObj.setContacto_id(contacto.getContactoId());
-            mensajeObj.setLongitud_sms(longitud);
+            mensajeObj.setContactoId(contacto.getContactoId());
+            mensajeObj.setLongitudSms(longitud);
+            mensajeObj.setGrupoId(grupoId);
+            mensajeObj.setUsuarioId(usuarioId);
 
             listaMensaje.add(mensajeObj);
         }
@@ -63,6 +65,18 @@ public class MensajeService {
                 mensajeMapper.insertarMensaje(mensaje);
             }
             sqlSession.commit();
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public List<Mensaje> findMensajesUsuario(int usuarioId, String estado) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            MensajeMapper mensajeMapper = sqlSession.getMapper(MensajeMapper.class);
+
+            return mensajeMapper.findMensajesUsuario(usuarioId,estado);
 
         } finally {
             sqlSession.close();

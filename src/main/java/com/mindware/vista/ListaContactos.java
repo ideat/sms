@@ -44,6 +44,7 @@ public class ListaContactos extends CustomComponent{
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+		contactoService = new ContactoService();
 
         btnNuevoContacto.addClickListener(new ClickListener() {
 			
@@ -102,6 +103,13 @@ public class ListaContactos extends CustomComponent{
 				cargarArchivo.center();
 				
 				UI.getCurrent().addWindow(cargarArchivo);
+
+				cargarArchivo.addCloseListener(new Window.CloseListener() {
+					@Override
+					public void windowClose(Window.CloseEvent e) {
+						mostrarContactos();
+					}
+				});
 				
 			}
 		});
@@ -135,13 +143,17 @@ public class ListaContactos extends CustomComponent{
 		});
 
 		//Llenar contactos
-		contactoService = new ContactoService();
-		llenarContactos(contactoService.findContactoByUser(1)); //TODO reemplazar 1 por el codigo de logeo del usuario
+		mostrarContactos();
 		seleccionarCelulares();
 		deleteContacto();
 
 	}
 	
+	private void mostrarContactos(){
+
+		llenarContactos(contactoService.findContactoByUser(1)); //TODO reemplazar 1 por el codigo de logeo del usuario
+	}
+
 	private void deleteContacto() {
 		btnEliminarContacto.addClickListener(new ClickListener() {
 			@Override

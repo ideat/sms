@@ -3,7 +3,7 @@ package com.mindware.domain;
 import java.util.Date;
 
 public class Mensaje {
-	private Integer mensaje_id;
+	private Integer mensajeId;
 	private String mensaje;
 	private Date fecha_envio;
 	private Date hora_envio;
@@ -11,24 +11,42 @@ public class Mensaje {
 	private String nombre;
 	private String grupo;
 	private String celular;
-	private Integer contacto_id;
-	private Integer longitud_sms;
+	private Integer contactoId;
+	private Integer longitudSms;
 	private Integer numero_intentos;
+	private Integer grupoId;
+	private Integer usuarioId;
 
-	public Integer getContacto_id() {
-		return contacto_id;
+	public Integer getUsuarioId() {
+		return usuarioId;
 	}
 
-	public void setContacto_id(Integer contacto_id) {
-		this.contacto_id = contacto_id;
+	public void setUsuarioId(Integer usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
-	public Integer getLongitud_sms() {
-		return longitud_sms;
+	public Integer getGrupoId() {
+		return grupoId;
 	}
 
-	public void setLongitud_sms(Integer longitud_sms) {
-		this.longitud_sms = longitud_sms;
+	public void setGrupoId(Integer grupoId) {
+		this.grupoId = grupoId;
+	}
+
+	public Integer getContactoId() {
+		return contactoId;
+	}
+
+	public void setContactoId(Integer contactoId) {
+		this.contactoId = contactoId;
+	}
+
+	public Integer getLongitudSms() {
+		return longitudSms;
+	}
+
+	public void setLongitudSms(Integer longitudSms) {
+		this.longitudSms = longitudSms;
 	}
 
 	public Integer getNumero_intentos() {
@@ -39,11 +57,11 @@ public class Mensaje {
 		this.numero_intentos = numero_intentos;
 	}
 
-	public Integer getMensaje_id() {
-		return mensaje_id;
+	public Integer getMensajeId() {
+		return mensajeId;
 	}
-	public void setMensaje_id(Integer mensaje_id) {
-		this.mensaje_id = mensaje_id;
+	public void setMensajeId(Integer mensajeId) {
+		this.mensajeId = mensajeId;
 	}
 	public String getMensaje() {
 		return mensaje;

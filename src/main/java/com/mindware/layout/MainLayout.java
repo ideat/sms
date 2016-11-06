@@ -52,6 +52,9 @@ public class MainLayout extends VerticalLayout{
 			public void buttonClick(ClickEvent event) {
 				contentLayout.removeAllComponents();
 				contentLayout.addComponent(component);
+
+
+
 			}
 		});
 	}
