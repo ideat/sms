@@ -28,7 +28,7 @@ public class SendSms {
 //        OutboundMessage msg = new OutboundMessage("+59160700381",
 //                "Duque Chevas");
 //
-////    Service srvice = Service.getInstance();
+////    Service service = Service.getInstance();
 //        Service.getInstance().sendMessage(msg);
 //
 //        Service.getInstance().stopService();
