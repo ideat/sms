@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="smsserver-3.5.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Library/smsserver-3.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Library/comm.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

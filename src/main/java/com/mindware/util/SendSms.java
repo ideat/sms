@@ -1,13 +1,14 @@
 package com.mindware.util;
-/*
-import org.smslib.AGateway;
-import org.smslib.IOutboundMessageNotification;
-import org.smslib.Library;
-import org.smslib.OutboundMessage;
-import org.smslib.OutboundWapSIMessage;
-import org.smslib.Service;
-import org.smslib.modem.SerialModemGateway;
-*/
+
+//import org.smslib.AGateway;
+//import org.smslib.IOutboundMessageNotification;
+//import org.smslib.Library;
+//import org.smslib.OutboundMessage;
+//import org.smslib.OutboundWapSIMessage;
+//import org.smslib.*;
+//import org.smslib.Service;
+//import org.smslib.modem.SerialModemGateway;
+
 /**
  * Created by freddy on 06-11-16.
  */
@@ -31,7 +32,7 @@ public class SendSms {
 ////    Service service = Service.getInstance();
 //        Service.getInstance().sendMessage(msg);
 //
-//        Service.getInstance().stopService();
+////        Service.getInstance().stopService();
 
 
     }
