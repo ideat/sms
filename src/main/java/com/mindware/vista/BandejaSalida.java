@@ -107,8 +107,6 @@ public class BandejaSalida extends CustomComponent {
 			}
 			tblSalida.setContainerDataSource(containerMensaje);
 
-
-
 		}
 
 	}
