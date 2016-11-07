@@ -7,6 +7,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.shared.ui.MultiSelectMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -271,15 +272,23 @@ public class ListaContactos extends CustomComponent{
 		// top-level component properties
 		setWidth("100.0%");
 		setHeight("100.0%");
-		titulo = new Label("Contactos");
+		//titulo = new Label("Contactos");
+        // titulo
+        titulo = new Label();
+        titulo.setImmediate(false);
+        titulo.setWidth("560px");
+        titulo.setHeight("60px");
+        titulo.setValue("Contactos");
+        titulo.setContentMode(ContentMode.HTML);
+        titulo.setStyleName("titulo");
 		mainLayout.addComponent(titulo);
 		// gridLayout_1
 		gridLayout_1 = buildGridLayout_1();
-		mainLayout.addComponent(gridLayout_1, "top:11.0px;right:13.0px;left:9.0px;");
+		mainLayout.addComponent(gridLayout_1, "top:51.0px;right:13.0px;left:9.0px;");
 		
 		// horizontalLayout_1
 		horizontalLayout_1 = buildHorizontalLayout_1();
-		mainLayout.addComponent(horizontalLayout_1, "top:79.0px;left:9.0px;");
+		mainLayout.addComponent(horizontalLayout_1, "top:89.0px;left:9.0px;");
 		
 		return mainLayout;
 	}
@@ -302,40 +311,40 @@ public class ListaContactos extends CustomComponent{
 		btnNuevoContacto = new NativeButton();
 		btnNuevoContacto.setCaption("Nuevo");
 		btnNuevoContacto.setImmediate(true);
-		btnNuevoContacto.setWidth("120px");
-		btnNuevoContacto.setHeight("-1px");
+		btnNuevoContacto.setWidth("160px");
+		btnNuevoContacto.setHeight("37px");
 		gridLayout_1.addComponent(btnNuevoContacto, 0, 0);
 		
 		// btnImportar
 		btnImportar = new NativeButton();
 		btnImportar.setCaption("Importar");
 		btnImportar.setImmediate(true);
-		btnImportar.setWidth("120px");
-		btnImportar.setHeight("-1px");
+		btnImportar.setWidth("160px");
+		btnImportar.setHeight("37px");
 		gridLayout_1.addComponent(btnImportar, 1, 0);
 		
 		// btnEditar
 		btnEditar = new NativeButton();
 		btnEditar.setCaption("Editar");
 		btnEditar.setImmediate(true);
-		btnEditar.setWidth("120px");
-		btnEditar.setHeight("-1px");
+		btnEditar.setWidth("160px");
+		btnEditar.setHeight("37px");
 		gridLayout_1.addComponent(btnEditar, 2, 0);
 
 		// btnComponer
 		btnComponer = new NativeButton();
 		btnComponer.setCaption("Componer Msje");
 		btnComponer.setImmediate(true);
-		btnComponer.setWidth("120px");
-		btnComponer.setHeight("-1px");
+		btnComponer.setWidth("160px");
+		btnComponer.setHeight("37px");
 		gridLayout_1.addComponent(btnComponer, 3, 0);
 
 		// btnEliminar
 		btnEliminarContacto = new NativeButton();
 		btnEliminarContacto.setCaption("Eliminar");
 		btnEliminarContacto.setImmediate(true);
-		btnEliminarContacto.setWidth("120px");
-		btnEliminarContacto.setHeight("-1px");
+		btnEliminarContacto.setWidth("160px");
+		btnEliminarContacto.setHeight("37px");
 		gridLayout_1.addComponent(btnEliminarContacto, 4, 0);
 
 		return gridLayout_1;
