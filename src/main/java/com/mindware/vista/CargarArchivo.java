@@ -93,7 +93,6 @@ public class CargarArchivo extends Window  {
 						Object d = p.getValue();
 						if (ValidarTelefono(d.toString())) {
 
-
 							for (int i = 0; i < columHeader.length; i++) {
 								Property property = container.getContainerProperty(itemID, columHeader[i]);
 								Object data = property.getValue();

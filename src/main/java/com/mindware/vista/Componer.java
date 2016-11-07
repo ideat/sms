@@ -212,7 +212,6 @@ public class Componer extends CustomComponent {
 		});
 	}
 
-
 	public void listaGrupoUsuario(int usuarioId) {
         List<Grupo> listaGrupo;
         IndexedContainer container = new IndexedContainer();

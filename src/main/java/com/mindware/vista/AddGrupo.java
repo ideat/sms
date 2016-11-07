@@ -567,5 +567,4 @@ public class AddGrupo extends Window {
 		return horizontalLayout_4;
 	}
 
-
 }

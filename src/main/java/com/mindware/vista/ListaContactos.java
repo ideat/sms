@@ -170,7 +170,6 @@ public class ListaContactos extends CustomComponent{
 					} else {
 						String id = c.toString();
 						contactoNoEliminados = contactoNoEliminados + id + ",";
-
 					}
 
 				}

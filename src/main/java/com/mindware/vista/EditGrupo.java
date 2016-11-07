@@ -144,7 +144,6 @@ public class EditGrupo extends Window {
         return listContactoGrupo;
     }
 
-
     private void moveToRightTable() {
 
         btnMoveRight.addClickListener(new ClickListener() {
