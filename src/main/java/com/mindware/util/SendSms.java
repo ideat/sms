@@ -11,13 +11,14 @@ import org.smslib.modem.SerialModemGateway;
 
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by freddy on 06-11-16.
  */
 public class SendSms {
 
-	public void sendMessage() throws Exception {
+	public void sendMessage(List<String> celular, List<String> mensaje) throws Exception {
 	    OutboundNotification outboundNotification = new OutboundNotification();
 	    System.out.println("Sample of Send message from a serial gsm modem.");
 	    System.out.println(Library.getLibraryDescription());
@@ -43,19 +44,12 @@ public class SendSms {
 	            + "%");
 
 	    // Send a message synchronously.
-	    OutboundMessage msg = new OutboundMessage("+59160700381",
-	            "Duque Chevas");
+	    OutboundMessage msg = new OutboundMessage(celular.get(0),
+	            mensaje.get(0));
 
-//	    Service srvice = Service.getInstance();
 	    Service.getInstance().sendMessage(msg);
 	    System.out.println(msg);
-	    // Or, send out a WAP SI message.
-	  //  OutboundWapSIMessage wapMsg = new OutboundWapSIMessage("+59160700381",
-	  //          new URL("http://stackoverflow.com/"),
-	  //          "WAP test: sample message from StackOverflow!");
-	    // gateway.setFrom("chandpriyankara");
-	    // wapMsg.setFrom("chandpriyankara");
-	    //srvice.queueMessage(wapMsg);
+	   ;
 
 	    Service.getInstance().stopService();
 	}

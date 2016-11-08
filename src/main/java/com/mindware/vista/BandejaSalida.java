@@ -205,14 +205,18 @@ public class BandejaSalida extends CustomComponent {
 	    System.out.println("Sample of Send message from a serial gsm modem.");
 	    System.out.println(Library.getLibraryDescription());
 	    System.out.println("Version: " + Library.getLibraryVersion());
-	    SerialModemGateway gateway = new SerialModemGateway("modem.com8", "COM8", 9600, "Huawei", "E303");
+	    SerialModemGateway gateway = new SerialModemGateway("modem.com6", "COM6", 9600, "Huawei", "E303");
 	   
 	    gateway.setInbound(false);
 	    gateway.setOutbound(true);
-
+	    
+	    try {
 	    Service.getInstance().setOutboundMessageNotification(outboundNotification);
 	    Service.getInstance().addGateway(gateway);
 	    Service.getInstance().startService();
+	    } catch (Exception e) {
+	    	System.out.println("Error: " + e);
+	    }
 	    
 	    System.out.println();
 	    System.out.println("Modem Information:");
@@ -226,19 +230,13 @@ public class BandejaSalida extends CustomComponent {
 	            + "%");
 
 	    // Send a message synchronously.
-	    OutboundMessage msg = new OutboundMessage("+59160700381",
-	            "Duque Chevas");
+	    OutboundMessage msg = new OutboundMessage("+59179707808",
+	            "Mensaje de Prueba");
 
 //	    Service srvice = Service.getInstance();
 	    Service.getInstance().sendMessage(msg);
 	    System.out.println(msg);
-	    // Or, send out a WAP SI message.
-	  //  OutboundWapSIMessage wapMsg = new OutboundWapSIMessage("+59160700381",
-	  //          new URL("http://stackoverflow.com/"),
-	  //          "WAP test: sample message from StackOverflow!");
-	    // gateway.setFrom("chandpriyankara");
-	    // wapMsg.setFrom("chandpriyankara");
-	    //srvice.queueMessage(wapMsg);
+	
 
 	    Service.getInstance().stopService();
 	}
