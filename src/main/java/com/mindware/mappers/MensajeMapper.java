@@ -12,4 +12,5 @@ public interface MensajeMapper {
     void insertarMensaje(Mensaje mensaje);
     List<Mensaje> findMensajesUsuario(@Param("usuarioId") int usuarioId,
                                          @Param("estado") String estado);
+    void updateEstadoMensaje(Mensaje mensaje);
 }

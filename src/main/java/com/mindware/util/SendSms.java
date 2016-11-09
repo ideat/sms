@@ -1,16 +1,13 @@
 package com.mindware.util;
 
-import org.smslib.AGateway;
-import org.smslib.IOutboundMessageNotification;
-import org.smslib.Library;
-import org.smslib.OutboundMessage;
-import org.smslib.OutboundWapSIMessage;
-import org.smslib.Service;
+import com.mindware.domain.Mensaje;
+import com.mindware.services.MensajeService;
+import org.smslib.*;
 import org.smslib.modem.SerialModemGateway;
 
-
-
-import java.io.IOException;
+import java.time.OffsetTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,11 +15,14 @@ import java.util.List;
  */
 public class SendSms {
 
-	public void sendMessage(List<String> celular, List<String> mensaje) throws Exception {
-	    OutboundNotification outboundNotification = new OutboundNotification();
-	    System.out.println("Sample of Send message from a serial gsm modem.");
-	    System.out.println(Library.getLibraryDescription());
-	    System.out.println("Version: " + Library.getLibraryVersion());
+
+
+	public void sendMessage(List<Mensaje> mensajes) throws Exception {
+
+		OutboundNotification outboundNotification = new OutboundNotification();
+//	    System.out.println("Sample of Send message from a serial gsm modem.");
+//	    System.out.println(Library.getLibraryDescription());
+//	    System.out.println("Version: " + Library.getLibraryVersion());
 	    SerialModemGateway gateway = new SerialModemGateway("modem.com6", "COM6", 9600, "Huawei", "E303");
 	   
 	    gateway.setInbound(false);
@@ -44,14 +44,38 @@ public class SendSms {
 	            + "%");
 
 	    // Send a message synchronously.
-	    OutboundMessage msg = new OutboundMessage(celular.get(0),
-	            mensaje.get(0));
+//		OutboundMessage msg = new OutboundMessage("+59179707808",
+//				"Mensaje de Prueba");
+		List<OutboundMessage> listaMensajes = new ArrayList<>();
+		java.util.Date fecha = new Date();
+		String hora = OffsetTime.now().toString();
 
-	    Service.getInstance().sendMessage(msg);
-	    System.out.println(msg);
-	   ;
+		try {
+			for (Mensaje mensaje : mensajes) {
+				Mensaje updateMensaje = new Mensaje();
+				OutboundMessage msg = new OutboundMessage(mensaje.getCelular(),
+						mensaje.getMensaje());
+				listaMensajes.add(msg);
 
-	    Service.getInstance().stopService();
+				updateMensaje.setMensajeId(mensaje.getMensajeId());
+				updateMensaje.setEnviado("T");
+				updateMensaje.setFechaEnvio(fecha);
+				updateMensaje.setHoraEnvio(hora);
+				updateMensaje.setNumeroIntentos( mensaje.getNumeroIntentos()+1);
+				//TODO actualizar el mensaje con su estado, fecha y hora de envio y numero de intentos
+
+				System.out.println(msg);
+			}
+			Service.getInstance().sendMessages(listaMensajes,gateway.getGatewayId());
+
+		} finally {
+			Service.getInstance().stopService();
+		}
+	}
+
+	private void actualizarMensaje() {
+		MensajeService mensajeService = new MensajeService();
+
 	}
 
 	public class OutboundNotification implements IOutboundMessageNotification {

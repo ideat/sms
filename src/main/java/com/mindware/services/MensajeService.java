@@ -25,15 +25,16 @@ public class MensajeService {
             Integer longitud = mensaje.length();
             mensajeObj.setCelular(contacto.getCelular());
             mensajeObj.setEnviado("F"); //Inicializa en falso
-            mensajeObj.setFecha_envio(null);
+            mensajeObj.setFechaEnvio(null);
             mensajeObj.setGrupo(grupo);
-            mensajeObj.setHora_envio(null);
+            mensajeObj.setHoraEnvio(null);
             mensajeObj.setNombre(contacto.getNombreContacto());
             mensajeObj.setMensaje(mensaje);
             mensajeObj.setContactoId(contacto.getContactoId());
             mensajeObj.setLongitudSms(longitud);
             mensajeObj.setGrupoId(grupoId);
             mensajeObj.setUsuarioId(usuarioId);
+            mensajeObj.setNumeroIntentos(0);
 
             listaMensaje.add(mensajeObj);
         }
@@ -81,6 +82,10 @@ public class MensajeService {
         } finally {
             sqlSession.close();
         }
+    }
+
+    public void updateEstadoMensaje(){
+
     }
 
 }

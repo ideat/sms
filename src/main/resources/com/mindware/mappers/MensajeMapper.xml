@@ -17,11 +17,12 @@
         <result property="longitudSms" column="longitud_sms"/>
         <result property="grupoId" column="grupo_id" />
         <result property="mensaje" column="mensaje" />
+        <result property="numeroIntento" column="numero_intentos" />
     </resultMap>
 
     <select id="findMensajesUsuario" resultMap="MensajeResult" parameterType="map">
         SELECT m.mensaje_id, m.fecha_envio, m.hora_envio, m.enviado, m.celular, m.nombre
-         , m.grupo, m.contacto_id, m.longitud_sms, m.grupo_id, m.mensaje
+         , m.grupo, m.contacto_id, m.longitud_sms, m.grupo_id, m.mensaje, m.numero_intentos
         from mensaje m
         where m.usuario_id= #{usuarioId}
          and m.enviado = #{estado}
@@ -35,10 +36,21 @@
         </selectKey>
 
         insert into mensaje (mensaje_id, usuario_id, contacto_id,grupo_id,mensaje, fecha_envio,
-        hora_envio, enviado, celular, nombre, grupo, longitud_sms) VALUES
+        hora_envio, enviado, celular, nombre, grupo, longitud_sms, numero_intentos) VALUES
         (#{mensajeId}, #{usuarioId}, #{contactoId}, #{grupoId}, #{mensaje}, #{fecha_envio},
-        #{hora_envio},#{enviado},#{celular}, #{nombre}, #{grupo}, #{longitudSms})
+        #{hora_envio},#{enviado},#{celular}, #{nombre}, #{grupo}, #{longitudSms}, #{numeroIntentos})
     </insert>
+
+    <update id="updateEstadoMensaje" parameterType="mensaje" >
+        update mensaje
+        set
+          enviado = #{enviado}
+          fecha_envio = #{fechaEnvio}
+          hora_envio = #{horaEnvio}
+          numero_intentos = #{numeroIntentos}
+        WHERE
+          mensaje_id = #{mensajeId}
+    </update>
 
 
 </mapper>
