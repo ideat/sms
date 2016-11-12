@@ -84,7 +84,31 @@ public class MensajeService {
         }
     }
 
-    public void updateEstadoMensaje(){
+    public void updateListaMensajes(List<Mensaje> listaMensajes){
+    	SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            MensajeMapper mensajeMapper = sqlSession.getMapper(MensajeMapper.class);
+            for (Mensaje mensaje:listaMensajes) {
+            	mensajeMapper.updateMensaje(mensaje);
+            }
+            sqlSession.commit();
+
+        } finally {
+            sqlSession.close();
+        }
+
+    }
+    
+    public void updateMensaje(Mensaje mensaje){
+    	SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            MensajeMapper mensajeMapper = sqlSession.getMapper(MensajeMapper.class);
+            mensajeMapper.updateMensaje(mensaje);
+            sqlSession.commit();
+
+        } finally {
+            sqlSession.close();
+        }
 
     }
 

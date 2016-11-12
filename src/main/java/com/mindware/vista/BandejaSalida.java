@@ -14,6 +14,8 @@ import de.steinwedel.messagebox.MessageBox;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.smslib.Service;
+
 public class BandejaSalida extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -33,6 +35,8 @@ public class BandejaSalida extends CustomComponent {
 	private NativeButton btnCargarMensajes;
 	private Label titulo;
 	private MensajeService mensajeService;
+//	private ProgressBar progressBar;
+	private SendSms sendSms;
 
 	public BandejaSalida() {
 		buildMainLayout();
@@ -54,15 +58,92 @@ public class BandejaSalida extends CustomComponent {
 
 		return listaMensajes;
 	}
+	//////////////////////////////////////
+//    public class Worker extends Thread {
+//        int current = 1;
+//        public final static int MAX = 10;
+// 
+//        @Override
+//        public void run() {
+//            for (; current <= MAX; current++) {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (final InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                synchronized (UI.getCurrent()) {
+//                    processed();
+//                }
+//            }
+//        }
+// 
+//        public int getCurrent() {
+//            return current;
+//        }
+// 
+//    }
+//    
+//   
+//	public final void processed() {
+//    	 
+//        final int i = 1;
+//        if (i == Worker.MAX) {
+//            UI.getCurrent().setPollInterval(-1);
+//          //  startButton.setEnabled(true);
+//            progressBar.setValue(0f);
+//            progressBar.setVisible(!progressBar.isIndeterminate());
+//        } else {
+//            progressBar.setValue((float) i / Worker.MAX);
+//        }
+//    }
+//    ////////////////////////////
+	
 	private void enviarMensaje()  {
-		btnenviar.addClickListener(new Button.ClickListener() {
 
+		btnenviar.addClickListener(new Button.ClickListener() {
+			
 			@Override
 			public void buttonClick(Button.ClickEvent clickEvent) {
 				try {
+					//List<Mensaje> msg = new ArrayList<>();
 					if (!mensajes().isEmpty()) {
-						SendSms sendSms = new SendSms();
-						sendSms.sendMessage(mensajes());
+						
+						if (sendSms==null)  {
+//			                Worker worker = new Worker();
+//			                worker.start();
+//			                progressBar.setValue(0f);
+//			                progressBar.setVisible(true);
+							btnenviar.setEnabled(false);
+							sendSms = new SendSms("modem.com6", "COM6", 9600, "Huawei", "E303");
+							//UI.getCurrent().setPollInterval(500);
+							Service.getInstance().startService();
+							for (Mensaje mensaje : mensajes()) {
+								
+								sendSms.sendMessage(mensaje.getMensaje(), mensaje.getCelular(), mensaje.getMensajeId(), mensaje.getNumeroIntentos());
+								
+								
+							}
+							Service.getInstance().stopService();
+							
+							sendSms.removeGateway();
+							sendSms = null;
+							datosBandejaSalida();
+							MessageBox.createInfo()
+							.withCaption("Envio mensajes")
+							.withMessage("Mensajes enviados")
+							.open();
+							btnenviar.setEnabled(true);
+							
+							//worker.stop();
+					  } else {
+							
+							MessageBox.createInfo()
+							.withCaption("Envio mensajes")
+							.withMessage("Existen mensajes en proceso de envio, intente mas adelante")
+							.open();
+							
+					  }
+						
 					} else {
 						MessageBox.createInfo()
 								.withCaption("Envio mensajes")
@@ -77,6 +158,51 @@ public class BandejaSalida extends CustomComponent {
 
 			}
 		});
+		
+	btnreenviar.addClickListener(new Button.ClickListener() {
+		@Override
+		public void buttonClick(Button.ClickEvent clickEvent) {
+			try {
+				List<Mensaje> msg = new ArrayList<>();
+				msg = mensajes();
+				if (!msg.isEmpty()) {
+					
+					if (sendSms==null)  {
+						sendSms = new SendSms("modem.com6", "COM6", 9600, "Huawei", "E303");
+						Service.getInstance().startService();
+						sendSms.sendMessages(msg);
+						Service.getInstance().stopService();
+						sendSms.removeGateway();
+						sendSms = null;
+						datosBandejaSalida();
+						
+						MessageBox.createInfo()
+						.withCaption("Envio mensajes")
+						.withMessage("Mensajes enviados")
+						.open();
+					} 	else {
+						MessageBox.createInfo()
+						.withCaption("Envio mensajes")
+						.withMessage("Existen mensajes en proceso de envio, intente mas adelante")
+						.open();
+					}
+					
+				} else {
+					MessageBox.createInfo()
+							.withCaption("Envio mensajes")
+							.withMessage("No se tienen mensajes para enviar")
+							.open();
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	});
+		
+
+		
 
 	}
 	
@@ -84,14 +210,19 @@ public class BandejaSalida extends CustomComponent {
 		btnCargarMensajes.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
-				mensajeService = new MensajeService();
-				llenarBandejaSalida(mensajeService.findMensajesUsuario(1,"F")); //;
+				datosBandejaSalida();
 			}
 		});
 
 	}
 
 
+	public void datosBandejaSalida() { //TODO : poner parametros para usuario y estado mensaje
+		mensajeService = new MensajeService();
+		llenarBandejaSalida(mensajeService.findMensajesUsuario(1,"F")); 
+	
+	}
+	
 	private void cabeceraTabla() {
 
 		tblSalida.addContainerProperty("ID", Integer.class, null);
@@ -103,14 +234,15 @@ public class BandejaSalida extends CustomComponent {
 	}
 
 	private void llenarBandejaSalida(List<Mensaje> mensajes) {
-		if (mensajes.size() > 0) {
-			IndexedContainer containerMensaje = new IndexedContainer();
+		IndexedContainer containerMensaje = new IndexedContainer();
 
-			containerMensaje.addContainerProperty("ID", Integer.class,"");
-			containerMensaje.addContainerProperty("Celular", String.class,"");
-			containerMensaje.addContainerProperty("Nombre", String.class,"");
-			containerMensaje.addContainerProperty("Mensaje", String.class,"");
-			containerMensaje.addContainerProperty("Longitud", Integer.class,"");
+		containerMensaje.addContainerProperty("ID", Integer.class,"");
+		containerMensaje.addContainerProperty("Celular", String.class,"");
+		containerMensaje.addContainerProperty("Nombre", String.class,"");
+		containerMensaje.addContainerProperty("Mensaje", String.class,"");
+		containerMensaje.addContainerProperty("Longitud", Integer.class,"");
+		if (mensajes.size() > 0) {
+			
 
 			for(Mensaje mensaje : mensajes) {
 				Item item = containerMensaje.addItem(mensaje);
@@ -122,7 +254,12 @@ public class BandejaSalida extends CustomComponent {
 			}
 			tblSalida.setContainerDataSource(containerMensaje);
 
+		} else {
+			
+			tblSalida.setContainerDataSource(containerMensaje);
 		}
+		
+		
 	}
 
 	@AutoGenerated
@@ -137,6 +274,12 @@ public class BandejaSalida extends CustomComponent {
 		setWidth("100.0%");
 		setHeight("100.0%");
 
+//		//ProgressBar
+//		progressBar = new ProgressBar();
+//		progressBar.setIndeterminate(true);
+//		progressBar.setVisible(true);
+//		mainLayout.addComponent(progressBar);//,"top:100.0px;right:84.0px;bottom:118.0px;left:12.0px;");
+		
 		// titulo
 		titulo = new Label();
 		titulo.setImmediate(false);
