@@ -342,6 +342,7 @@ public class BandejaSalida extends CustomComponent {
 		btnreenviar.setImmediate(false);
 		btnreenviar.setWidth("160px");
 		btnreenviar.setHeight("37px");
+		btnreenviar.setVisible(false);
 		horizontalLayout_1.addComponent(btnreenviar);
 		horizontalLayout_1.setComponentAlignment(btnreenviar, new Alignment(20));
 

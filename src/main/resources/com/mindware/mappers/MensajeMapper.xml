@@ -28,7 +28,13 @@
          and m.enviado = #{estado}
     </select>
 
-
+	 <select id="findMensajeNoEnviado" resultMap="MensajeResult" parameterType="String">
+        SELECT m.mensaje_id, m.fecha_envio, m.hora_envio, m.enviado, m.celular, m.nombre
+         , m.grupo, m.contacto_id, m.longitud_sms, m.grupo_id, m.mensaje, m.numero_intentos
+        from mensaje m
+        where  m.enviado = #{estado}
+    </select>
+	
 
     <insert id="insertarMensaje" parameterType="mensaje" keyProperty="mensajeId" >
         <selectKey keyProperty="mensajeId" resultType="int" order="BEFORE">

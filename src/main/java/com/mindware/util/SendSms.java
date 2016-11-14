@@ -66,7 +66,6 @@ public class SendSms {
 			
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -92,14 +91,11 @@ public class SendSms {
 			
 			updateListaMensajes.add(updateMensaje);
 			//TODO actualizar el mensaje con su estado, fecha y hora de envio y numero de intentos
-
-			
+		
 		}
 
 		Service.getInstance().sendMessages(listaMensajes,gateway.getGatewayId());
 		actualizarMensajes(updateListaMensajes);
-		
-		
 	
 	}
 

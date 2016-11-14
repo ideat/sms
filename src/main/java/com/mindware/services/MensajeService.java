@@ -83,6 +83,18 @@ public class MensajeService {
             sqlSession.close();
         }
     }
+    
+    public List<Mensaje> findMensajeNoEnviado(String estado) {
+        SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();
+        try {
+            MensajeMapper mensajeMapper = sqlSession.getMapper(MensajeMapper.class);
+           
+            return mensajeMapper.findMensajeNoEnviado(estado);
+
+        } finally {
+            sqlSession.close();
+        }
+    }
 
     public void updateListaMensajes(List<Mensaje> listaMensajes){
     	SqlSession sqlSession = MyBatisSqlSessionFactory.getSqlSession();

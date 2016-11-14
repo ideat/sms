@@ -39,6 +39,7 @@ public class smsUI extends UI {
         LoginUI login = new LoginUI();
 		
 		setContent(login);
+		
 
     }
 
@@ -65,6 +66,7 @@ public class smsUI extends UI {
 
 
     		setContent(layout);
+    		
 
 
     	}
